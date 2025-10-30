@@ -1,0 +1,53 @@
+{
+  "schedule": [
+    {
+      "date": "2025-11-15",
+      "time": "10:00 AM",
+      "location": "Camden Library",
+      "address": "55 Main Street, Camden, ME",
+      "services": ["Health Screening", "Dental", "Wellness Education"],
+      "zipCode": "04843",
+      "lat": 44.2098,
+      "lng": -69.0648,
+      "notes": "Free blood pressure checks available"
+    },
+    {
+      "date": "2025-11-17",
+      "time": "2:00 PM",
+      "location": "Rockland Community Center",
+      "address": "23 Union Street, Rockland, ME",
+      "services": ["Health Screening", "Mental Health", "Wellness Education"],
+      "zipCode": "04841",
+      "lat": 44.1037,
+      "lng": -69.1092,
+      "notes": "Mental health counselor available"
+    },
+    {
+      "date": "2025-11-20",
+      "time": "1:00 PM",
+      "location": "Thomaston Fire Station",
+      "address": "45 Meadow Road, Thomaston, ME",
+      "services": ["Health Screening", "Dental"],
+      "zipCode": "04861",
+      "lat": 44.0814,
+      "lng": -69.1839,
+      "notes": ""
+    }
+  ],
+  "tracking": [
+    {
+      "date": "2025-11-01",
+      "location": "Rockland Community Center",
+      "attendees": 25,
+      "servicesProvided": ["Blood pressure checks", "Dental screenings", "Wellness education"],
+      "notes": "High turnout, excellent weather"
+    },
+    {
+      "date": "2025-11-05",
+      "location": "Camden Library",
+      "attendees": 18,
+      "servicesProvided": ["Health screenings", "Mental health consultations"],
+      "notes": "Good engagement with mental health services"
+    }
+  ]
+}

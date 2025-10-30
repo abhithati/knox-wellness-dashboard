@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knox Wellness Van Dashboard</title>
+    
+    <!-- Leaflet CSS for mapping -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./public/assets/css/styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./public/assets/images/favicon.ico">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🚐 Knox Wellness Van</h1>
+                    <p class="subtitle">Mobile Health Services Dashboard</p>
+                </div>
+                <nav class="nav">
+                    <a href="index.html" class="nav-link active">Map</a>
+                    <a href="./public/community.html" class="nav-link">Community View</a>
+                    <a href="./public/partners.html" class="nav-link">Analytics</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Filters and Controls -->
+            <div class="controls-panel">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="dateFilter">Date Range:</label>
+                        <select id="dateFilter" class="filter-select">
+                            <option value="upcoming">Upcoming Stops</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="all">All Time</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="serviceFilter">Services:</label>
+                        <select id="serviceFilter" class="filter-select">
+                            <option value="all">All Services</option>
+                            <option value="health">Health Screening</option>
+                            <option value="dental">Dental</option>
+                            <option value="mental">Mental Health</option>
+                            <option value="education">Wellness Education</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>
+                            <input type="checkbox" id="showCensusTract" checked>
+                            Show Census Tract Overlay
+                        </label>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="refreshData" class="btn btn-primary">
+                        🔄 Refresh Data
+                    </button>
+                    <button id="exportData" class="btn btn-secondary">
+                        📊 Export Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Summary -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalStops">--</div>
+                    <div class="stat-label">Total Stops</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalAttendees">--</div>
+                    <div class="stat-label">People Served</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalServices">--</div>
+                    <div class="stat-label">Services Provided</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="communitiesReached">--</div>
+                    <div class="stat-label">Communities Reached</div>
+                </div>
+            </div>
+
+            <!-- Map Container -->
+            <div class="map-container">
+                <div id="map" class="map"></div>
+                <div class="map-legend">
+                    <h3>Legend</h3>
+                    <div class="legend-item">
+                        <span class="legend-marker current"></span>
+                        <span>Current/Today</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker upcoming"></span>
+                        <span>Upcoming Stops</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker past"></span>
+                        <span>Past Stops</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Schedule -->
+            <div class="schedule-section">
+                <h2>📅 Upcoming Schedule</h2>
+                <div id="scheduleList" class="schedule-list">
+                    <!-- Schedule items will be loaded here -->
+                    <div class="loading">Loading schedule...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Knox County Health Department | Scout Labs Creative Tech</p>
+            <p>
+                <a href="mailto:wellness@knoxcounty.org">Contact Us</a> | 
+                <a href="#privacy">Privacy Policy</a> | 
+                <a href="#accessibility">Accessibility</a>
+            </p>
+            <p class="data-update">Last updated: <span id="lastUpdate">--</span></p>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS for mapping -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Configuration -->
+    <script src="./config/config.js"></script>
+    
+    <!-- Data Service -->
+    <script src="./public/assets/js/dataService.js"></script>
+    
+    <!-- Map Handler -->
+    <script src="./public/assets/js/mapHandler.js"></script>
+    
+    <!-- Main Application -->
+    <script src="./public/assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find the Wellness Van - Knox County</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🚐 Find the Wellness Van</h1>
+                    <p class="subtitle">Free Health Services in Knox County</p>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">Map</a>
+                    <a href="community.html" class="nav-link active">Community View</a>
+                    <a href="partners.html" class="nav-link">Analytics</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Welcome Section -->
+            <section style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <h2 style="color: #2563eb; margin-bottom: 1rem;">🏥 Free Health Services Coming to Your Community</h2>
+                <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 1rem;">
+                    The Knox County Mobile Wellness Van brings free health services directly to your neighborhood. 
+                    No appointment needed, no insurance required. Everyone is welcome!
+                </p>
+                <p style="font-size: 1.125rem; line-height: 1.8;">
+                    <strong>Services we offer:</strong> Health screenings, blood pressure checks, dental care, 
+                    mental health support, wellness education, and more.
+                </p>
+            </section>
+
+            <!-- Upcoming Stops -->
+            <section style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <h2 style="margin-bottom: 1.5rem;">📅 Where We'll Be Next</h2>
+                <div id="upcomingStops" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div class="loading">Loading upcoming stops...</div>
+                </div>
+            </section>
+
+            <!-- Simple Map -->
+            <section style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <h2 style="margin-bottom: 1rem;">🗺️ Map of Upcoming Stops</h2>
+                <div id="communityMap" style="height: 400px; border-radius: 0.375rem; overflow: hidden;"></div>
+            </section>
+
+            <!-- Contact Information -->
+            <section style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <h2 style="margin-bottom: 1rem;">📞 Questions?</h2>
+                <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 0.5rem;">
+                    <strong>Phone:</strong> <a href="tel:5551234567" style="color: #2563eb;">(555) 123-4567</a>
+                </p>
+                <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 0.5rem;">
+                    <strong>Email:</strong> <a href="mailto:wellness@knoxcounty.org" style="color: #2563eb;">wellness@knoxcounty.org</a>
+                </p>
+                <p style="font-size: 1.125rem; line-height: 1.8;">
+                    <strong>Website:</strong> <a href="https://knoxcounty.org/wellness" style="color: #2563eb;">knoxcounty.org/wellness</a>
+                </p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Knox County Health Department</p>
+            <p>Free services for all community members • No insurance required • Walk-ins welcome</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./assets/js/dataService.js"></script>
+    <script>
+        // Simple community view script
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialize map
+            const map = L.map('communityMap').setView(CONFIG.MAP_CENTER, CONFIG.MAP_ZOOM);
+            L.tileLayer(CONFIG.MAP_TILES.url, {
+                attribution: CONFIG.MAP_TILES.attribution
+            }).addTo(map);
+
+            // Load schedule
+            const schedule = await dataService.getSchedule();
+            const upcoming = dataService.filterByDateRange(schedule, 'upcoming').slice(0, 5);
+
+            // Display upcoming stops
+            const container = document.getElementById('upcomingStops');
+            if (upcoming.length === 0) {
+                container.innerHTML = '<p style="color: #666;">No upcoming stops scheduled yet. Check back soon!</p>';
+            } else {
+                container.innerHTML = upcoming.map(stop => `
+                    <div style="border: 2px solid #2563eb; border-radius: 0.5rem; padding: 1.5rem; background: #eff6ff;">
+                        <h3 style="color: #2563eb; margin-bottom: 0.5rem; font-size: 1.5rem;">${stop.location}</h3>
+                        <p style="font-size: 1.25rem; margin: 0.5rem 0;"><strong>📅 ${formatDate(stop.date)}</strong></p>
+                        <p style="font-size: 1.25rem; margin: 0.5rem 0;"><strong>🕐 ${stop.time}</strong></p>
+                        <p style="font-size: 1rem; margin: 0.5rem 0; color: #4b5563;">📍 ${stop.address}</p>
+                        <div style="margin-top: 1rem;">
+                            <strong style="font-size: 1rem;">Services:</strong>
+                            <div style="margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                ${stop.services.map(s => `<span style="background: white; padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; font-weight: 500;">${s}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Add markers to map
+                upcoming.forEach(stop => {
+                    if (stop.lat && stop.lng) {
+                        const marker = L.marker([stop.lat, stop.lng]).addTo(map);
+                        marker.bindPopup(`
+                            <strong>${stop.location}</strong><br>
+                            ${formatDate(stop.date)} at ${stop.time}
+                        `);
+                    }
+                });
+
+                // Fit map to markers
+                const markers = upcoming.filter(s => s.lat && s.lng).map(s => [s.lat, s.lng]);
+                if (markers.length > 0) {
+                    map.fitBounds(markers);
+                }
+            }
+        });
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+    </script>
+</body>
+</html>
