@@ -1,2 +1,2 @@
 # knox-wellness-dashboard
-obile Wellness Van Dashboard for Knox County
+Mobile Wellness Van Dashboard for Knox County
