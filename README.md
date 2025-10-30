@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Knox Wellness Van Dashboard
 
 Interactive dashboard for tracking and visualizing the Knox County mobile wellness van program.
@@ -183,3 +184,7 @@ For questions or issues:
 ---
 
 **Built by Scout Labs for Knox County Creative Tech Initiative**
+=======
+# knox-wellness-dashboard
+Mobile Wellness Van Dashboard for Knox County
+>>>>>>> 2b60b81baf1baa474dc9e72e799115a69b5f80f7
