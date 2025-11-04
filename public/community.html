@@ -7,6 +7,165 @@
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="./assets/css/styles.css">
+    
+    <style>
+        /* Two-column layout */
+        .content-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        /* Sidebar styling */
+        .sidebar {
+            position: sticky;
+            top: 90px;
+            max-height: calc(100vh - 110px);
+            overflow-y: auto;
+        }
+        
+        .service-filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .filter-header {
+            margin-bottom: 1.25rem;
+        }
+        
+        .filter-header h3 {
+            margin: 0 0 0.75rem 0;
+            color: #1f2937;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-direction: column;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .filter-btn:hover {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+        }
+        
+        .checkbox-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            transition: background 0.2s;
+        }
+        
+        .checkbox-item:hover {
+            background: #f9fafb;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            accent-color: #2563eb;
+            flex-shrink: 0;
+        }
+        
+        .checkbox-item label {
+            cursor: pointer;
+            user-select: none;
+            font-size: 0.938rem;
+            color: #374151;
+            line-height: 1.4;
+        }
+        
+        .filter-results {
+            text-align: center;
+            padding: 0.75rem;
+            background: #eff6ff;
+            border-radius: 0.375rem;
+            margin-top: 1rem;
+            font-weight: 500;
+            color: #1e40af;
+            font-size: 0.875rem;
+        }
+        
+        .filter-info {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 1rem;
+            font-size: 0.813rem;
+            color: #92400e;
+            line-height: 1.5;
+        }
+        
+        /* Main content area */
+        .main-area {
+            min-width: 0;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 968px) {
+            .content-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .sidebar {
+                position: static;
+                max-height: none;
+            }
+            
+            .filter-actions {
+                flex-direction: row;
+            }
+        }
+        
+        /* Scrollbar styling for sidebar */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -40,33 +199,68 @@
                 </p>
             </section>
 
-            <!-- Upcoming Stops -->
-            <section style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 2rem;">
-                <h2 style="margin-bottom: 1.5rem;">📅 Where We'll Be Next</h2>
-                <div id="upcomingStops" style="display: flex; flex-direction: column; gap: 1rem;">
-                    <div class="loading">Loading upcoming stops...</div>
+            <!-- Two-column layout: Sidebar + Main Content -->
+            <div class="content-layout">
+                <!-- LEFT SIDEBAR: Service Filters -->
+                <aside class="sidebar">
+                    <div class="service-filters">
+                        <div class="filter-header">
+                            <h3>🔍 Filter Services</h3>
+                            <p style="font-size: 0.875rem; color: #6b7280; margin: 0 0 1rem 0;">
+                                Select services you need
+                            </p>
+                        </div>
+                        
+                        <div id="serviceCheckboxes" class="checkbox-list">
+                            <!-- Checkboxes will be dynamically added here -->
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button class="filter-btn" onclick="selectAllServices()">✓ Select All</button>
+                            <button class="filter-btn" onclick="clearAllServices()">✗ Clear All</button>
+                        </div>
+                        
+                        <div id="filterInfo" class="filter-info" style="display: none;">
+                            <!-- Filter logic info will appear here -->
+                        </div>
+                        
+                        <div id="filterResults" class="filter-results" style="display: none;">
+                            <!-- Results count will appear here -->
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- RIGHT SIDE: Main Content -->
+                <div class="main-area">
+                    <!-- Interactive Map -->
+                    <div class="map-container">
+                        <div id="map" class="map"></div>
+                        <div class="map-legend">
+                            <h3>Legend</h3>
+                            <div class="legend-item">
+                                <span class="legend-marker current"></span>
+                                <span>Current/Today</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-marker upcoming"></span>
+                                <span>Upcoming Stops</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-marker past"></span>
+                                <span>Past Stops</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Stops -->
+                    <section style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                        <h2 style="margin-bottom: 1.5rem;">📅 Where We'll Be Next</h2>
+                        <div id="upcomingStops" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div class="loading">Loading upcoming stops...</div>
+                        </div>
+                    </section>
                 </div>
-            </section>
-
-            <!-- Simple Map -->
-            <section style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 2rem;">
-                <h2 style="margin-bottom: 1rem;">🗺️ Map of Upcoming Stops</h2>
-                <div id="communityMap" style="height: 400px; border-radius: 0.375rem; overflow: hidden;"></div>
-            </section>
-
-            <!-- Contact Information -->
-            <section style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                <h2 style="margin-bottom: 1rem;">📞 Questions?</h2>
-                <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 0.5rem;">
-                    <strong>Phone:</strong> <a href="tel:5551234567" style="color: #2563eb;">(555) 123-4567</a>
-                </p>
-                <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 0.5rem;">
-                    <strong>Email:</strong> <a href="mailto:wellness@knoxcounty.org" style="color: #2563eb;">wellness@knoxcounty.org</a>
-                </p>
-                <p style="font-size: 1.125rem; line-height: 1.8;">
-                    <strong>Website:</strong> <a href="https://knoxcounty.org/wellness" style="color: #2563eb;">knoxcounty.org/wellness</a>
-                </p>
-            </section>
+            </div>
         </div>
     </main>
 
@@ -77,60 +271,191 @@
         </div>
     </footer>
 
+    <!-- Leaflet JS for mapping -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Configuration -->
     <script src="../config/config.js"></script>
+    
+    <!-- Data Service -->
     <script src="./assets/js/dataService.js"></script>
+    
+    <!-- Map Handler -->
+    <script src="./assets/js/mapHandler.js"></script>
+
+    <!-- Community View Script -->
     <script>
-        // Simple community view script
+        let mapHandler;
+        let allUpcomingStops = [];
+        let availableServices = new Set();
+
         document.addEventListener('DOMContentLoaded', async () => {
-            // Initialize map
-            const map = L.map('communityMap').setView(CONFIG.MAP_CENTER, CONFIG.MAP_ZOOM);
-            L.tileLayer(CONFIG.MAP_TILES.url, {
-                attribution: CONFIG.MAP_TILES.attribution
-            }).addTo(map);
+            // Initialize map with full MapHandler
+            mapHandler = new MapHandler('map');
 
             // Load schedule
             const schedule = await dataService.getSchedule();
-            const upcoming = dataService.filterByDateRange(schedule, 'upcoming').slice(0, 5);
+            allUpcomingStops = dataService.filterByDateRange(schedule, 'upcoming');
 
-            // Display upcoming stops
+            // Extract all unique services
+            allUpcomingStops.forEach(stop => {
+                stop.services.forEach(service => {
+                    availableServices.add(service);
+                });
+            });
+
+            // Create checkboxes for each service
+            createServiceCheckboxes();
+
+            // Display all stops initially
+            updateDisplay();
+
+            // Make mapHandler available globally for onclick events
+            window.mapHandler = mapHandler;
+        });
+
+        function createServiceCheckboxes() {
+            const container = document.getElementById('serviceCheckboxes');
+            const sortedServices = Array.from(availableServices).sort();
+
+            container.innerHTML = sortedServices.map(service => `
+                <div class="checkbox-item">
+                    <input 
+                        type="checkbox" 
+                        id="service-${service.replace(/\s+/g, '-')}" 
+                        value="${service}"
+                        onchange="updateDisplay()"
+                        checked
+                    />
+                    <label for="service-${service.replace(/\s+/g, '-')}">${service}</label>
+                </div>
+            `).join('');
+        }
+
+        function getSelectedServices() {
+            const checkboxes = document.querySelectorAll('#serviceCheckboxes input[type="checkbox"]');
+            const selected = [];
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selected.push(checkbox.value);
+                }
+            });
+            return selected;
+        }
+
+        function filterStopsByServices(stops, selectedServices) {
+            // If no services selected, show all
+            if (selectedServices.length === 0) {
+                return stops;
+            }
+
+            // Filter stops that have ALL of the selected services (AND logic)
+            return stops.filter(stop => {
+                return selectedServices.every(service => 
+                    stop.services.includes(service)
+                );
+            });
+        }
+
+        function updateDisplay() {
+            const selectedServices = getSelectedServices();
+            const filteredStops = filterStopsByServices(allUpcomingStops, selectedServices);
+
+            // Update map markers
+            mapHandler.addScheduleMarkers(filteredStops);
+
+            // Update list (show next 5)
+            displayStopsList(filteredStops.slice(0, 5));
+
+            // Update results count and info
+            updateResultsCount(filteredStops.length, allUpcomingStops.length, selectedServices);
+        }
+
+        function displayStopsList(stops) {
             const container = document.getElementById('upcomingStops');
-            if (upcoming.length === 0) {
-                container.innerHTML = '<p style="color: #666;">No upcoming stops scheduled yet. Check back soon!</p>';
+            
+            if (stops.length === 0) {
+                container.innerHTML = '<p style="color: #666; text-align: center; padding: 2rem;">No stops found that offer all the selected services together. Try selecting fewer services or different combinations.</p>';
             } else {
-                container.innerHTML = upcoming.map(stop => `
-                    <div style="border: 2px solid #2563eb; border-radius: 0.5rem; padding: 1.5rem; background: #eff6ff;">
+                container.innerHTML = stops.map(stop => `
+                    <div style="border: 2px solid #2563eb; border-radius: 0.5rem; padding: 1.5rem; background: #eff6ff; cursor: pointer;" 
+                         onclick="mapHandler.flyTo(${stop.lat}, ${stop.lng}, 15)">
                         <h3 style="color: #2563eb; margin-bottom: 0.5rem; font-size: 1.5rem;">${stop.location}</h3>
                         <p style="font-size: 1.25rem; margin: 0.5rem 0;"><strong>📅 ${formatDate(stop.date)}</strong></p>
                         <p style="font-size: 1.25rem; margin: 0.5rem 0;"><strong>🕐 ${stop.time}</strong></p>
                         <p style="font-size: 1rem; margin: 0.5rem 0; color: #4b5563;">📍 ${stop.address}</p>
+                        ${stop.zipCode ? `
+                            <p style="margin: 0.5rem 0; font-size: 1rem; color: #4b5563;">
+                                <strong>📮 Zip:</strong> ${stop.zipCode}
+                            </p>
+                        ` : ''}
                         <div style="margin-top: 1rem;">
                             <strong style="font-size: 1rem;">Services:</strong>
                             <div style="margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
                                 ${stop.services.map(s => `<span style="background: white; padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; font-weight: 500;">${s}</span>`).join('')}
                             </div>
                         </div>
+                        ${stop.notes ? `
+                            <p style="margin-top: 1rem; font-size: 0.875rem; color: #666; font-style: italic;">
+                                ${stop.notes}
+                            </p>
+                        ` : ''}
+                        <p style="margin-top: 1rem; font-size: 0.875rem; color: #2563eb; font-weight: 500;">
+                            👆 Click to see on map
+                        </p>
                     </div>
                 `).join('');
+            }
+        }
 
-                // Add markers to map
-                upcoming.forEach(stop => {
-                    if (stop.lat && stop.lng) {
-                        const marker = L.marker([stop.lat, stop.lng]).addTo(map);
-                        marker.bindPopup(`
-                            <strong>${stop.location}</strong><br>
-                            ${formatDate(stop.date)} at ${stop.time}
-                        `);
-                    }
-                });
-
-                // Fit map to markers
-                const markers = upcoming.filter(s => s.lat && s.lng).map(s => [s.lat, s.lng]);
-                if (markers.length > 0) {
-                    map.fitBounds(markers);
+        function updateResultsCount(filtered, total, selectedServices) {
+            const resultsDiv = document.getElementById('filterResults');
+            const infoDiv = document.getElementById('filterInfo');
+            
+            if (selectedServices.length === 0) {
+                resultsDiv.style.display = 'none';
+                infoDiv.style.display = 'none';
+            } else if (selectedServices.length === availableServices.size) {
+                resultsDiv.style.display = 'none';
+                infoDiv.style.display = 'none';
+            } else {
+                // Show info about AND logic
+                if (selectedServices.length > 1) {
+                    infoDiv.style.display = 'block';
+                    infoDiv.innerHTML = `💡 Showing stops with <strong>ALL</strong> of:<br>${selectedServices.map(s => '• ' + s).join('<br>')}`;
+                } else {
+                    infoDiv.style.display = 'none';
+                }
+                
+                // Show results count
+                resultsDiv.style.display = 'block';
+                if (filtered === 0) {
+                    resultsDiv.innerHTML = `No stops with all selected services`;
+                    resultsDiv.style.background = '#fee2e2';
+                    resultsDiv.style.color = '#991b1b';
+                } else {
+                    resultsDiv.innerHTML = `${filtered} of ${total} stops`;
+                    resultsDiv.style.background = '#eff6ff';
+                    resultsDiv.style.color = '#1e40af';
                 }
             }
-        });
+        }
+
+        function selectAllServices() {
+            const checkboxes = document.querySelectorAll('#serviceCheckboxes input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            updateDisplay();
+        }
+
+        function clearAllServices() {
+            const checkboxes = document.querySelectorAll('#serviceCheckboxes input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            updateDisplay();
+        }
 
         function formatDate(dateString) {
             return new Date(dateString).toLocaleDateString('en-US', {
