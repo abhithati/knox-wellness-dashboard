@@ -16,19 +16,20 @@ class MapHandler {
     /**
      * Initialize the map
      */
-    init() {
-        // Create map centered on Knox County, Maine
-        this.map = L.map(this.containerId).setView(
-            CONFIG.MAP_CENTER,
-            CONFIG.MAP_ZOOM
-        );
-
+     init() {
+        // Create map
+        this.map = L.map(this.containerId, {
+            //This will maek it so that you can't zoom beyond this and it will autmatically start on Maine
+            minZoom: 8,    
+            maxZoom: 17
+        }).setView(CONFIG.MAP_CENTER, CONFIG.MAP_ZOOM);
+    
         // Add tile layer
         L.tileLayer(CONFIG.MAP_TILES.url, {
             attribution: CONFIG.MAP_TILES.attribution,
             maxZoom: 19
         }).addTo(this.map);
-
+    
         console.log('Map initialized');
     }
 
