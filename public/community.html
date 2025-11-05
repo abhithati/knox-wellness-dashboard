@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Find the Wellness Van - Knox County</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="./assets/css/styles.css">    
     
     <style>
         /* Two-column layout */
         .content-layout {
             display: grid;
-            grid-template-columns: 300px 1fr;
+            grid-template-columns: 320px 1fr;
             gap: 2rem;
             align-items: start;
         }
@@ -27,143 +27,111 @@
         
         .service-filters {
             background: white;
-            padding: 1.5rem;
+            padding: 1.25rem;
             border-radius: 0.5rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         .filter-header {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
         }
         
         .filter-header h3 {
-            margin: 0 0 0.75rem 0;
+            margin: 0 0 0.5rem 0;
             color: #1f2937;
             font-size: 1.125rem;
             font-weight: 600;
         }
-        
-        .filter-actions {
-            display: flex;
-            gap: 0.5rem;
-            flex-direction: column;
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
         }
-        
-        .filter-btn {
+
+        .dropdown { position: relative; }
+        .dropdown-toggle {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            color: #374151;
+        }
+        .dropdown-toggle .caret { opacity: 0.6; }
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            z-index: 40;
+            background: white;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-radius: 6px;
+            min-width: 280px;
+            max-height: 260px;
+            overflow: auto;
+            padding: 8px;
+        }
+
+        .dropdown .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 6px;
+            border-radius: 4px;
+        }
+        .dropdown .dropdown-item:hover { background: #f8fafc; }
+
+        .zip-row { display: flex; gap: 8px; align-items: center; }
+        .zip-row input[type="text"] { width: 110px; padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 6px; }
+        .zip-row select { padding: 6px 8px; border-radius: 6px; border: 1px solid #d1d5db; }
+
+        .days-list { display: flex; flex-wrap: wrap; gap: 6px; }
+        .day-btn {
+            padding: 6px 8px;
+            background: #f8fafc;
+            border: 1px solid #e6eef8;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: #374151;
+        }
+        .day-btn.selected { background: #2563eb; color: white; border-color: #1e40af; }
+
+        .time-row { display: flex; gap: 8px; align-items: center; }
+        .time-row input[type="time"] { padding: 6px; border: 1px solid #d1d5db; border-radius: 6px; }
+
+        .filter-actions { display: flex; gap: 8px; margin-top: 8px; }
+        .filter-action-btn {
             padding: 0.5rem 0.75rem;
             font-size: 0.875rem;
             border: 1px solid #d1d5db;
             background: white;
             border-radius: 0.375rem;
             cursor: pointer;
-            color: #4b5563;
-            font-weight: 500;
-            transition: all 0.2s;
-            text-align: center;
-        }
-        
-        .filter-btn:hover {
-            background: #f3f4f6;
-            border-color: #9ca3af;
-        }
-        
-        .checkbox-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            padding: 0.5rem;
-            border-radius: 0.375rem;
-            transition: background 0.2s;
-        }
-        
-        .checkbox-item:hover {
-            background: #f9fafb;
-        }
-        
-        .checkbox-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-right: 0.5rem;
-            cursor: pointer;
-            accent-color: #2563eb;
-            flex-shrink: 0;
-        }
-        
-        .checkbox-item label {
-            cursor: pointer;
-            user-select: none;
-            font-size: 0.938rem;
             color: #374151;
-            line-height: 1.4;
+            font-weight: 600;
         }
-        
-        .filter-results {
-            text-align: center;
-            padding: 0.75rem;
-            background: #eff6ff;
-            border-radius: 0.375rem;
-            margin-top: 1rem;
-            font-weight: 500;
-            color: #1e40af;
-            font-size: 0.875rem;
-        }
-        
-        .filter-info {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            margin-top: 1rem;
-            font-size: 0.813rem;
-            color: #92400e;
-            line-height: 1.5;
-        }
-        
-        /* Main content area */
-        .main-area {
-            min-width: 0;
-        }
-        
-        /* Mobile responsive */
-        @media (max-width: 968px) {
-            .content-layout {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .sidebar {
-                position: static;
-                max-height: none;
-            }
-            
-            .filter-actions {
-                flex-direction: row;
-            }
-        }
-        
+
+        .filter-results { text-align: center; padding: 0.75rem; background: #eff6ff; border-radius: 0.375rem; margin-top: 0.75rem; font-weight: 600; color: #1e40af; font-size: 0.875rem; }
+
+        .filter-info { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 0.75rem; border-radius: 0.375rem; margin-top: 0.75rem; font-size: 0.813rem; color: #92400e; line-height: 1.5; }
+
         /* Scrollbar styling for sidebar */
-        .sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .sidebar::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 3px;
-        }
-        
-        .sidebar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-        
-        .sidebar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .sidebar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        @media (max-width: 968px) {
+            .content-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+            .sidebar { position: static; max-height: none; }
         }
     </style>
 </head>
@@ -206,26 +174,56 @@
                     <div class="service-filters">
                         <div class="filter-header">
                             <h3>🔍 Filter Services</h3>
-                            <p style="font-size: 0.875rem; color: #6b7280; margin: 0 0 1rem 0;">
-                                Select services you need
-                            </p>
+                            <p style="font-size: 0.875rem; color: #6b7280; margin: 0 0 1rem 0;">Select services, location, days and times</p>
                         </div>
-                        
-                        <div id="serviceCheckboxes" class="checkbox-list">
-                            <!-- Checkboxes will be dynamically added here -->
-                        </div>
-                        
-                        <div class="filter-actions">
-                            <button class="filter-btn" onclick="selectAllServices()">✓ Select All</button>
-                            <button class="filter-btn" onclick="clearAllServices()">✗ Clear All</button>
-                        </div>
-                        
-                        <div id="filterInfo" class="filter-info" style="display: none;">
-                            <!-- Filter logic info will appear here -->
-                        </div>
-                        
-                        <div id="filterResults" class="filter-results" style="display: none;">
-                            <!-- Results count will appear here -->
+
+                        <div class="controls-grid">
+                            <!-- Services dropdown -->
+                            <div class="dropdown">
+                                <button id="servicesToggle" class="dropdown-toggle" aria-expanded="false">Services <span class="caret">▾</span></button>
+                                <div id="servicesMenu" class="dropdown-menu" style="display:none;"></div>
+                            </div>
+
+                            <!-- Location (zip + radius) -->
+                            <div>
+                                <label style="font-weight:600; display:block; margin-bottom:6px; color:#374151;">Location</label>
+                                <div class="zip-row">
+                                    <input id="zipInput" type="text" placeholder="Zipcode" inputmode="numeric" />
+                                    <select id="zipRadius">
+                                        <option value="5">5 mi</option>
+                                        <option value="10">10 mi</option>
+                                        <option value="25" selected>25 mi</option>
+                                        <option value="50">50 mi</option>
+                                    </select>
+                                    <button id="clearZip" class="filter-action-btn">Clear</button>
+                                </div>
+                                <div id="zipHint" style="margin-top:6px; font-size:0.85rem; color:#6b7280;">Enter a 5-digit ZIP and leave field to resolve location</div>
+                            </div>
+
+                            <!-- Days multi-select -->
+                            <div>
+                                <label style="font-weight:600; display:block; margin-bottom:6px; color:#374151;">Days</label>
+                                <div id="daysList" class="days-list"></div>
+                            </div>
+
+                            <!-- Times -->
+                            <div>
+                                <label style="font-weight:600; display:block; margin-bottom:6px; color:#374151;">Times</label>
+                                <div class="time-row">
+                                    <input id="timeFrom" type="time" />
+                                    <span style="opacity:0.6;">—</span>
+                                    <input id="timeTo" type="time" />
+                                    <button id="clearTimes" class="filter-action-btn">Clear</button>
+                                </div>
+                            </div>
+
+                            <div class="filter-actions">
+                                <button id="selectAllServices" class="filter-action-btn">✓ Select All</button>
+                                <button id="clearAllServices" class="filter-action-btn">✗ Clear</button>
+                            </div>
+
+                            <div id="filterInfo" class="filter-info" style="display:none;"></div>
+                            <div id="filterResults" class="filter-results" style="display:none;"></div>
                         </div>
                     </div>
                 </aside>
@@ -288,146 +286,263 @@
         let mapHandler;
         let allUpcomingStops = [];
         let availableServices = new Set();
+        let zipCoords = null; // {lat, lng}
+
+        const daysOfWeek = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
         document.addEventListener('DOMContentLoaded', async () => {
-            // Initialize map with full MapHandler
             mapHandler = new MapHandler('map');
 
-            // Load schedule
             const schedule = await dataService.getSchedule();
             allUpcomingStops = dataService.filterByDateRange(schedule, 'upcoming');
 
-            // Extract all unique services
+            // Normalize services and build set
             allUpcomingStops.forEach(stop => {
-                stop.services.forEach(service => {
-                    availableServices.add(service);
-                });
+                (stop.services || []).forEach(service => availableServices.add(service));
             });
 
-            // Create checkboxes for each service
-            createServiceCheckboxes();
+            createServiceMenu();
+            createDaysButtons();
 
-            // Display all stops initially
+            // Wire up controls
+            document.getElementById('servicesToggle').addEventListener('click', toggleServicesMenu);
+            document.getElementById('selectAllServices').addEventListener('click', selectAllServices);
+            document.getElementById('clearAllServices').addEventListener('click', clearAllServices);
+            document.getElementById('zipInput').addEventListener('blur', onZipBlur);
+            document.getElementById('zipRadius').addEventListener('change', updateDisplay);
+            document.getElementById('clearZip').addEventListener('click', clearZip);
+            document.getElementById('timeFrom').addEventListener('change', updateDisplay);
+            document.getElementById('timeTo').addEventListener('change', updateDisplay);
+            document.getElementById('clearTimes').addEventListener('click', () => { document.getElementById('timeFrom').value=''; document.getElementById('timeTo').value=''; updateDisplay(); });
+
             updateDisplay();
-
-            // Make mapHandler available globally for onclick events
             window.mapHandler = mapHandler;
         });
 
-        function createServiceCheckboxes() {
-            const container = document.getElementById('serviceCheckboxes');
-            const sortedServices = Array.from(availableServices).sort();
-
-            container.innerHTML = sortedServices.map(service => `
-                <div class="checkbox-item">
-                    <input 
-                        type="checkbox" 
-                        id="service-${service.replace(/\s+/g, '-')}" 
-                        value="${service}"
-                        onchange="updateDisplay()"
-                        checked
-                    />
-                    <label for="service-${service.replace(/\s+/g, '-')}">${service}</label>
-                </div>
+        function createServiceMenu() {
+            const menu = document.getElementById('servicesMenu');
+            const services = Array.from(availableServices).sort();
+            menu.innerHTML = services.map(s => `
+                <label class="dropdown-item">
+                    <input type="checkbox" value="${escapeHtml(s)}" class="service-checkbox" checked />
+                    <span>${escapeHtml(s)}</span>
+                </label>
             `).join('');
+
+            menu.querySelectorAll('.service-checkbox').forEach(cb => cb.addEventListener('change', updateDisplay));
+        }
+
+        function toggleServicesMenu(e) {
+            const menu = document.getElementById('servicesMenu');
+            const open = menu.style.display !== 'none';
+            menu.style.display = open ? 'none' : 'block';
+            document.getElementById('servicesToggle').setAttribute('aria-expanded', String(!open));
         }
 
         function getSelectedServices() {
-            const checkboxes = document.querySelectorAll('#serviceCheckboxes input[type="checkbox"]');
+            const checkboxes = document.querySelectorAll('.service-checkbox');
             const selected = [];
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    selected.push(checkbox.value);
-                }
-            });
+            checkboxes.forEach(cb => { if (cb.checked) selected.push(cb.value); });
             return selected;
         }
 
-        function filterStopsByServices(stops, selectedServices) {
-            // If no services selected, show all
-            if (selectedServices.length === 0) {
-                return stops;
+        function selectAllServices() {
+            document.querySelectorAll('.service-checkbox').forEach(cb => { cb.checked = true; });
+            updateDisplay();
+        }
+
+        function clearAllServices() {
+            document.querySelectorAll('.service-checkbox').forEach(cb => { cb.checked = false; });
+            updateDisplay();
+        }
+
+        function createDaysButtons() {
+            const container = document.getElementById('daysList');
+            container.innerHTML = daysOfWeek.map(d => `
+                <button type="button" class="day-btn" data-day="${d}">${d}</button>
+            `).join('');
+            container.querySelectorAll('.day-btn').forEach(btn => btn.addEventListener('click', () => {
+                btn.classList.toggle('selected');
+                updateDisplay();
+            }));
+        }
+
+        function getSelectedDays() {
+            return Array.from(document.querySelectorAll('.day-btn.selected')).map(b => b.getAttribute('data-day'));
+        }
+
+        async function onZipBlur(e) {
+            const zip = document.getElementById('zipInput').value.trim();
+            if (!/^\d{5}$/.test(zip)) {
+                zipCoords = null;
+                document.getElementById('zipHint').textContent = 'Enter a 5-digit ZIP and leave field to resolve location';
+                updateDisplay();
+                return;
             }
 
-            // Filter stops that have ALL of the selected services (AND logic)
-            return stops.filter(stop => {
-                return selectedServices.every(service => 
-                    stop.services.includes(service)
-                );
-            });
+            document.getElementById('zipHint').textContent = 'Resolving ZIP...';
+            try {
+                const res = await fetch(`https://api.zippopotam.us/us/${zip}`);
+                if (!res.ok) throw new Error('Not found');
+                const data = await res.json();
+                const place = data.places && data.places[0];
+                if (place) {
+                    zipCoords = { lat: parseFloat(place.latitude), lng: parseFloat(place.longitude) };
+                    document.getElementById('zipHint').textContent = `Center: ${zipCoords.lat.toFixed(4)}, ${zipCoords.lng.toFixed(4)}`;
+                } else {
+                    zipCoords = null;
+                    document.getElementById('zipHint').textContent = 'Could not resolve ZIP';
+                }
+            } catch (err) {
+                zipCoords = null;
+                document.getElementById('zipHint').textContent = 'Could not resolve ZIP';
+            }
+            updateDisplay();
+        }
+
+        function clearZip() {
+            document.getElementById('zipInput').value = '';
+            zipCoords = null;
+            document.getElementById('zipHint').textContent = 'Enter a 5-digit ZIP and leave field to resolve location';
+            updateDisplay();
         }
 
         function updateDisplay() {
             const selectedServices = getSelectedServices();
-            const filteredStops = filterStopsByServices(allUpcomingStops, selectedServices);
+            const selectedDays = getSelectedDays();
+            const timeFrom = document.getElementById('timeFrom').value; // "HH:MM"
+            const timeTo = document.getElementById('timeTo').value;
+            const radius = Number(document.getElementById('zipRadius').value);
 
-            // Update map markers
-            mapHandler.addScheduleMarkers(filteredStops);
+            const filtered = allUpcomingStops.filter(stop => {
+                // Services: if any selected, require that stop includes ALL selected (AND logic)
+                if (selectedServices.length > 0) {
+                    if (!stop.services || !selectedServices.every(s => stop.services.includes(s))) return false;
+                }
 
-            // Update list (show next 5)
-            displayStopsList(filteredStops.slice(0, 5));
+                // Days: if selected, require stop's weekday in selectedDays
+                if (selectedDays.length > 0) {
+                    const d = new Date(stop.date);
+                    const weekday = daysOfWeek[d.getDay()];
+                    if (!selectedDays.includes(weekday)) return false;
+                }
 
-            // Update results count and info
-            updateResultsCount(filteredStops.length, allUpcomingStops.length, selectedServices);
+                // Times: if specified, require that stop.time falls within range
+                if (timeFrom || timeTo) {
+                    const stopTime = parseTimeTo24(stop.time);
+                    if (!stopTime) return false;
+                    if (timeFrom && timeTo) {
+                        if (!timeInRange(stopTime, timeFrom, timeTo)) return false;
+                    } else if (timeFrom) {
+                        if (stopTime < timeFrom) return false;
+                    } else if (timeTo) {
+                        if (stopTime > timeTo) return false;
+                    }
+                }
+
+                // Location radius: if zipCoords present, require within radius miles
+                if (zipCoords) {
+                    const dist = haversineMiles(zipCoords.lat, zipCoords.lng, stop.lat, stop.lng);
+                    if (dist > radius) return false;
+                }
+
+                return true;
+            });
+
+            mapHandler.addScheduleMarkers(filtered);
+            displayStopsList(filtered.slice(0,5));
+            updateResultsCount(filtered.length, allUpcomingStops.length, selectedServices);
+        }
+
+        function parseTimeTo24(timeStr) {
+            if (!timeStr) return null;
+            // Try to parse common formats e.g. "10:00 AM", "10:00", "9 AM"
+            // Create a Date using today's date and the given time
+            const today = new Date();
+            const attempt = new Date(`${today.toDateString()} ${timeStr}`);
+            if (!isNaN(attempt.getTime())) {
+                const hh = String(attempt.getHours()).padStart(2,'0');
+                const mm = String(attempt.getMinutes()).padStart(2,'0');
+                return `${hh}:${mm}`;
+            }
+            // Fallback: try HH:MM extraction
+            const m = timeStr.match(/(\d{1,2}):(\d{2})/);
+            if (m) {
+                const hh = String(parseInt(m[1],10)).padStart(2,'0');
+                const mm = m[2];
+                return `${hh}:${mm}`;
+            }
+            return null;
+        }
+
+        function timeInRange(t, from, to) {
+            // t, from, to are strings "HH:MM"
+            if (!t) return false;
+            const toMinutes = s => { const [h,m]=s.split(':').map(Number); return h*60 + m; };
+            const tv = toMinutes(t);
+            const fv = toMinutes(from);
+            const tv2 = toMinutes(to);
+            if (fv <= tv2) {
+                return tv >= fv && tv <= tv2;
+            } else {
+                // Range crosses midnight (e.g., 22:00 - 03:00)
+                return tv >= fv || tv <= tv2;
+            }
+        }
+
+        function haversineMiles(lat1, lon1, lat2, lon2) {
+            function toRad(x) { return x * Math.PI / 180; }
+            const R = 3958.8; // miles
+            const dLat = toRad(lat2-lat1);
+            const dLon = toRad(lon2-lon1);
+            const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)*Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
         }
 
         function displayStopsList(stops) {
             const container = document.getElementById('upcomingStops');
-            
-            if (stops.length === 0) {
-                container.innerHTML = '<p style="color: #666; text-align: center; padding: 2rem;">No stops found that offer all the selected services together. Try selecting fewer services or different combinations.</p>';
-            } else {
-                container.innerHTML = stops.map(stop => `
-                    <div style="border: 2px solid #2563eb; border-radius: 0.5rem; padding: 1.5rem; background: #eff6ff; cursor: pointer;" 
-                         onclick="mapHandler.flyTo(${stop.lat}, ${stop.lng}, 15)">
-                        <h3 style="color: #2563eb; margin-bottom: 0.5rem; font-size: 1.5rem;">${stop.location}</h3>
-                        <p style="font-size: 1.25rem; margin: 0.5rem 0;"><strong>📅 ${formatDate(stop.date)}</strong></p>
-                        <p style="font-size: 1.25rem; margin: 0.5rem 0;"><strong>🕐 ${stop.time}</strong></p>
-                        <p style="font-size: 1rem; margin: 0.5rem 0; color: #4b5563;">📍 ${stop.address}</p>
-                        ${stop.zipCode ? `
-                            <p style="margin: 0.5rem 0; font-size: 1rem; color: #4b5563;">
-                                <strong>📮 Zip:</strong> ${stop.zipCode}
-                            </p>
-                        ` : ''}
-                        <div style="margin-top: 1rem;">
-                            <strong style="font-size: 1rem;">Services:</strong>
-                            <div style="margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                                ${stop.services.map(s => `<span style="background: white; padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; font-weight: 500;">${s}</span>`).join('')}
-                            </div>
-                        </div>
-                        ${stop.notes ? `
-                            <p style="margin-top: 1rem; font-size: 0.875rem; color: #666; font-style: italic;">
-                                ${stop.notes}
-                            </p>
-                        ` : ''}
-                        <p style="margin-top: 1rem; font-size: 0.875rem; color: #2563eb; font-weight: 500;">
-                            👆 Click to see on map
-                        </p>
-                    </div>
-                `).join('');
+            if (!stops || stops.length === 0) {
+                container.innerHTML = '<p style="color: #666; text-align: center; padding: 2rem;">No stops match the selected filters. Try adjusting services, days, times, or location.</p>';
+                return;
             }
+
+            container.innerHTML = stops.map(stop => `
+                <div style="border: 2px solid #2563eb; border-radius: 0.5rem; padding: 1.25rem; background: #eff6ff; cursor: pointer;" onclick="mapHandler.flyTo(${stop.lat}, ${stop.lng}, 15)">
+                    <h3 style="color: #2563eb; margin-bottom: 0.5rem; font-size: 1.25rem;">${escapeHtml(stop.location)}</h3>
+                    <p style="font-size: 1rem; margin: 0.25rem 0;"><strong>📅 ${escapeHtml(formatDate(stop.date))}</strong></p>
+                    <p style="font-size: 1rem; margin: 0.25rem 0;"><strong>🕐 ${escapeHtml(stop.time)}</strong></p>
+                    <p style="font-size: 0.95rem; margin: 0.25rem 0; color: #4b5563;">📍 ${escapeHtml(stop.address || '')}</p>
+                    ${stop.zipCode ? `<p style="margin: 0.25rem 0; font-size: 0.95rem; color: #4b5563;"><strong>📮 Zip:</strong> ${escapeHtml(stop.zipCode)}</p>` : ''}
+                    <div style="margin-top: 0.75rem;"><strong style="font-size: 0.95rem;">Services:</strong>
+                        <div style="margin-top:0.5rem; display:flex; flex-wrap:wrap; gap:6px;">
+                            ${(stop.services||[]).map(s => `<span style="background:white; padding:0.25rem 0.6rem; border-radius:6px; font-size:0.85rem; font-weight:600;">${escapeHtml(s)}</span>`).join('')}
+                        </div>
+                    </div>
+                    ${stop.notes ? `<p style="margin-top: 0.75rem; font-size:0.85rem; color:#666; font-style:italic;">${escapeHtml(stop.notes)}</p>` : ''}
+                    <p style="margin-top: 0.75rem; font-size:0.85rem; color:#2563eb; font-weight:600;">👆 Click to see on map</p>
+                </div>
+            `).join('');
         }
 
         function updateResultsCount(filtered, total, selectedServices) {
             const resultsDiv = document.getElementById('filterResults');
             const infoDiv = document.getElementById('filterInfo');
-            
-            if (selectedServices.length === 0) {
+
+            if ((selectedServices || []).length === 0) {
                 resultsDiv.style.display = 'none';
                 infoDiv.style.display = 'none';
-            } else if (selectedServices.length === availableServices.size) {
+            } else if ((selectedServices || []).length === availableServices.size) {
                 resultsDiv.style.display = 'none';
                 infoDiv.style.display = 'none';
             } else {
-                // Show info about AND logic
-                if (selectedServices.length > 1) {
+                if ((selectedServices || []).length > 1) {
                     infoDiv.style.display = 'block';
-                    infoDiv.innerHTML = `💡 Showing stops with <strong>ALL</strong> of:<br>${selectedServices.map(s => '• ' + s).join('<br>')}`;
+                    infoDiv.innerHTML = `💡 Showing stops with <strong>ALL</strong> of:<br>${selectedServices.map(s => '• ' + escapeHtml(s)).join('<br>')}`;
                 } else {
                     infoDiv.style.display = 'none';
                 }
-                
-                // Show results count
+
                 resultsDiv.style.display = 'block';
                 if (filtered === 0) {
                     resultsDiv.innerHTML = `No stops with all selected services`;
@@ -441,29 +556,14 @@
             }
         }
 
-        function selectAllServices() {
-            const checkboxes = document.querySelectorAll('#serviceCheckboxes input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = true;
-            });
-            updateDisplay();
-        }
-
-        function clearAllServices() {
-            const checkboxes = document.querySelectorAll('#serviceCheckboxes input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = false;
-            });
-            updateDisplay();
+        // Simple HTML escape to avoid injection
+        function escapeHtml(str) {
+            if (!str && str !== 0) return '';
+            return String(str).replace(/[&<>"']/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]; });
         }
 
         function formatDate(dateString) {
-            return new Date(dateString).toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+            return new Date(dateString).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         }
     </script>
 </body>
