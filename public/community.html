@@ -197,7 +197,7 @@
                                     </select>
                                     <button id="clearZip" class="filter-action-btn">Clear</button>
                                 </div>
-                                <div id="zipHint" style="margin-top:6px; font-size:0.85rem; color:#6b7280;">Enter a 5-digit ZIP and leave field to resolve location</div>
+                                <!--<div id="zipHint" style="margin-top:6px; font-size:0.85rem; color:#6b7280;">Enter a 5-digit ZIP and leave field to resolve location</div> -->
                             </div>
 
                             <!-- Days multi-select -->
@@ -375,35 +375,35 @@
             const zip = document.getElementById('zipInput').value.trim();
             if (!/^\d{5}$/.test(zip)) {
                 zipCoords = null;
-                document.getElementById('zipHint').textContent = 'Enter a 5-digit ZIP and leave field to resolve location';
+                //document.getElementById('zipHint').textContent = 'Enter a 5-digit ZIP and leave field to resolve location';
                 updateDisplay();
                 return;
             }
 
-            document.getElementById('zipHint').textContent = 'Resolving ZIP...';
-            try {
-                const res = await fetch(`https://api.zippopotam.us/us/${zip}`);
-                if (!res.ok) throw new Error('Not found');
-                const data = await res.json();
-                const place = data.places && data.places[0];
-                if (place) {
-                    zipCoords = { lat: parseFloat(place.latitude), lng: parseFloat(place.longitude) };
-                    document.getElementById('zipHint').textContent = `Center: ${zipCoords.lat.toFixed(4)}, ${zipCoords.lng.toFixed(4)}`;
-                } else {
-                    zipCoords = null;
-                    document.getElementById('zipHint').textContent = 'Could not resolve ZIP';
-                }
-            } catch (err) {
-                zipCoords = null;
-                document.getElementById('zipHint').textContent = 'Could not resolve ZIP';
-            }
-            updateDisplay();
+            // document.getElementById('zipHint').textContent = 'Resolving ZIP...';
+            // try {
+            //     const res = await fetch(`https://api.zippopotam.us/us/${zip}`);
+            //     if (!res.ok) throw new Error('Not found');
+            //     const data = await res.json();
+            //     const place = data.places && data.places[0];
+            //     if (place) {
+            //         zipCoords = { lat: parseFloat(place.latitude), lng: parseFloat(place.longitude) };
+            //         document.getElementById('zipHint').textContent = `Center: ${zipCoords.lat.toFixed(4)}, ${zipCoords.lng.toFixed(4)}`;
+            //     } else {
+            //         zipCoords = null;
+            //         document.getElementById('zipHint').textContent = 'Could not resolve ZIP';
+            //     }
+            // } catch (err) {
+            //     zipCoords = null;
+            //     document.getElementById('zipHint').textContent = 'Could not resolve ZIP';
+            // }
+            // updateDisplay();
         }
 
         function clearZip() {
             document.getElementById('zipInput').value = '';
             zipCoords = null;
-            document.getElementById('zipHint').textContent = 'Enter a 5-digit ZIP and leave field to resolve location';
+            //document.getElementById('zipHint').textContent = 'Enter a 5-digit ZIP and leave field to resolve location';
             updateDisplay();
         }
 
