@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knox Clinic - Health & Wellness Van</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            padding: 20px 50px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 55px;
+            height: 55px;
+            position: relative;
+        }
+
+        .logo-icon::before,
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            background-color: #00AAAC;
+        }
+
+        .logo-icon::before {
+            width: 20px;
+            height: 55px;
+            left: 17.5px;
+            top: 0;
+        }
+
+        .logo-icon::after {
+            width: 55px;
+            height: 20px;
+            left: 0;
+            top: 17.5px;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00AAAC;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .logo-text p {
+            font-size: 13px;
+            color: #99CA3D;
+            font-style: italic;
+            margin: 0;
+        }
+
+        .admin-login-btn {
+            background-color: #00AAAC;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 8px rgba(0,170,172,0.3);
+        }
+
+        .admin-login-btn:hover {
+            background-color: #008a8c;
+        }
+
+        /* Main Content Area */
+        main {
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        .dashboard-section {
+            background-color: white;
+            padding: 40px 50px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .van-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #00AAAC;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .dashboard-title h2 {
+            font-size: 32px;
+            font-weight: 400;
+            color: #00AAAC;
+            margin: 0;
+        }
+
+        .dashboard-title p {
+            font-size: 16px;
+            color: #666;
+            margin: 5px 0 0 0;
+        }
+
+        .add-event-btn {
+            background-color: #00AAAC;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .add-event-btn:hover {
+            background-color: #008a8c;
+        }
+
+        /* Dashboard Placeholder */
+        .dashboard-content {
+            background-color: #f8f9fa;
+            border: 2px dashed #00AAAC;
+            border-radius: 12px;
+            padding: 80px 40px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .dashboard-content h3 {
+            color: #00AAAC;
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-content p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .dashboard-content .features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #00AAAC;
+            font-size: 14px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #c5df89;
+            padding: 50px 50px 40px 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contact-section h3,
+        .donate-section h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+
+        .contact-info {
+            color: #333;
+            line-height: 2;
+            font-size: 14px;
+        }
+
+        .contact-info p {
+            margin-bottom: 6px;
+        }
+
+        .contact-info .org-name {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .contact-info .spacing {
+            margin-top: 18px;
+        }
+
+        .donate-btn {
+            background-color: #99CA3D;
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            margin-bottom: 35px;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .donate-btn:hover {
+            background-color: #8ab832;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .social-icon:hover {
+            background-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Copyright Bar */
+        .copyright {
+            background-color: #00AAAC;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+                padding: 20px 30px;
+            }
+
+            .dashboard-section {
+                padding: 30px 20px;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+
+            footer {
+                grid-template-columns: 1fr;
+                padding: 40px 30px;
+            }
+
+            .dashboard-content {
+                padding: 60px 20px;
+            }
+
+            .dashboard-content .features {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo-section">
+            <div class="logo-icon"></div>
+            <div class="logo-text">
+                <h1>KNOX CLINIC</h1>
+                <p>Your Mid Coast Health Net</p>
+            </div>
+        </div>
+        <button class="admin-login-btn">Admin Login</button>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section class="dashboard-section">
+            <div class="dashboard-header">
+                <div class="dashboard-title">
+                    <div class="van-icon">
+                        <i class="fas fa-shuttle-van"></i>
+                    </div>
+                    <div>
+                        <h2>Health & Wellness Van</h2>
+                        <p>Mobile Health Service Dashboard</p>
+                    </div>
+                </div>
+                <button class="add-event-btn">
+                    <i class="fas fa-plus"></i>
+                    Add New Event
+                </button>
+            </div>
+
+            <div class="dashboard-content">
+                <h3>Dashboard Content Area</h3>
+                
+                <div class="features">
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Calendar View</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Location Map</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-list"></i>
+                        <span>Event List</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-filter"></i>
+                        <span>Service Filters</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="contact-section">
+            <h3>CONTACT US</h3>
+            <div class="contact-info">
+                <p class="org-name">Mid Coast Health Net</p>
+                <p>d.b.a. The Knox Clinic</p>
+                <p class="spacing">22 White Street</p>
+                <p>Rockland, ME 04841</p>
+                <p class="spacing">Phone: (207) 680-4545</p>
+                <p>Fax: (207) 680-4544</p>
+            </div>
+        </div>
+        <div class="donate-section">
+            <h3>DONATE</h3>
+            <button class="donate-btn">Please Donate Today!</button>
+            <h3>FOLLOW US</h3>
+            <div class="social-links">
+                <a href="#" class="social-icon" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-icon" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="social-icon" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Copyright -->
+    <div class="copyright">
+        Copyright © Knox Clinic. All rights reserved.
+    </div>
+
+    <script>
+        // Admin Login button functionality
+        document.querySelector('.admin-login-btn').addEventListener('click', function() {
+            alert('Admin login functionality will be implemented here');
+        });
+
+        // Add Event button functionality
+        document.querySelector('.add-event-btn').addEventListener('click', function() {
+            alert('Add new event form will be implemented here');
+        });
+
+        // Donate button functionality
+        document.querySelector('.donate-btn').addEventListener('click', function() {
+            alert('Donation page will be implemented here');
+        });
+    </script>
+</body>
+</html>
