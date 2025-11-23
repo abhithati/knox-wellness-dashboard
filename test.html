@@ -6,6 +6,10 @@
     <title>Knox Clinic - Health & Wellness Van</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet CSS for mapping -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
     <style>
         * {
             margin: 0;
@@ -163,43 +167,245 @@
             background-color: #008a8c;
         }
 
-        /* Dashboard Placeholder */
-        .dashboard-content {
-            background-color: #f8f9fa;
-            border: 2px dashed #00AAAC;
+        /* Controls Panel */
+        .controls-panel {
+            background-color: white;
+            padding: 25px;
             border-radius: 12px;
-            padding: 80px 40px;
-            text-align: center;
-            margin: 30px 0;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        .dashboard-content h3 {
-            color: #00AAAC;
-            font-size: 24px;
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-
-        .dashboard-content p {
-            color: #666;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        .dashboard-content .features {
+        .filters {
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 30px;
+            gap: 20px;
             flex-wrap: wrap;
+            margin-bottom: 20px;
         }
 
-        .feature-item {
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: #333;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #00AAAC;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #008a8c;
+        }
+
+        .btn-secondary {
+            background-color: #99CA3D;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #8ab832;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #00AAAC;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Map Container */
+        .map-container {
+            position: relative;
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        #map {
+            height: 500px;
+            border-radius: 8px;
+            z-index: 1;
+        }
+
+        .map-legend {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            z-index: 1000;
+        }
+
+        .map-legend h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .legend-item {
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .legend-marker {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        }
+
+        .legend-marker.current {
+            background-color: #00AAAC;
+        }
+
+        .legend-marker.upcoming {
+            background-color: #99CA3D;
+        }
+
+        .legend-marker.past {
+            background-color: #999;
+        }
+
+        /* Schedule Section */
+        .schedule-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .schedule-section h2 {
+            font-size: 24px;
             color: #00AAAC;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .schedule-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .schedule-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .schedule-item:hover {
+            box-shadow: 0 4px 12px rgba(0,170,172,0.15);
+            border-color: #00AAAC;
+        }
+
+        .schedule-date {
+            font-weight: 600;
+            color: #00AAAC;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .schedule-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .schedule-location {
+            color: #555;
             font-size: 14px;
+        }
+
+        .schedule-services {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .service-tag {
+            background-color: #e6f7f7;
+            color: #00AAAC;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .loading {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-style: italic;
         }
 
         /* Footer Styles */
@@ -276,6 +482,7 @@
             transition: all 0.3s;
             color: #666;
             font-size: 18px;
+            text-decoration: none;
         }
 
         .social-icon:hover {
@@ -312,18 +519,31 @@
                 align-items: flex-start;
             }
 
+            .controls-panel {
+                padding: 20px;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .map-legend {
+                position: static;
+                margin-top: 15px;
+            }
+
             footer {
                 grid-template-columns: 1fr;
                 padding: 40px 30px;
             }
 
-            .dashboard-content {
-                padding: 60px 20px;
-            }
-
-            .dashboard-content .features {
+            .schedule-details {
                 flex-direction: column;
-                gap: 15px;
+                align-items: flex-start;
             }
         }
     </style>
@@ -360,26 +580,94 @@
                 </button>
             </div>
 
-            <div class="dashboard-content">
-                <h3>Dashboard Content Area</h3>
-                
-                <div class="features">
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Calendar View</span>
+            <!-- Filters and Controls -->
+            <div class="controls-panel">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="dateFilter">Date Range:</label>
+                        <select id="dateFilter" class="filter-select">
+                            <option value="upcoming">Upcoming Stops</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="all">All Time</option>
+                        </select>
                     </div>
-                    <div class="feature-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Location Map</span>
+                    
+                    <div class="filter-group">
+                        <label for="serviceFilter">Services:</label>
+                        <select id="serviceFilter" class="filter-select">
+                            <option value="all">All Services</option>
+                            <option value="health">Health Screening</option>
+                            <option value="dental">Dental</option>
+                            <option value="mental">Mental Health</option>
+                            <option value="education">Wellness Education</option>
+                        </select>
                     </div>
-                    <div class="feature-item">
-                        <i class="fas fa-list"></i>
-                        <span>Event List</span>
+
+                    <div class="filter-group">
+                        <label>
+                            <input type="checkbox" id="showCensusTract" checked>
+                            Show Census Tract Overlay
+                        </label>
                     </div>
-                    <div class="feature-item">
-                        <i class="fas fa-filter"></i>
-                        <span>Service Filters</span>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="refreshData" class="btn btn-primary">
+                        🔄 Refresh Data
+                    </button>
+                    <button id="exportData" class="btn btn-secondary">
+                        📊 Export Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Summary -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalStops">--</div>
+                    <div class="stat-label">Total Stops</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalAttendees">--</div>
+                    <div class="stat-label">People Served</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalServices">--</div>
+                    <div class="stat-label">Services Provided</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="communitiesReached">--</div>
+                    <div class="stat-label">Communities Reached</div>
+                </div>
+            </div>
+
+            <!-- Map Container -->
+            <div class="map-container">
+                <div id="map" class="map"></div>
+                <div class="map-legend">
+                    <h3>Legend</h3>
+                    <div class="legend-item">
+                        <span class="legend-marker current"></span>
+                        <span>Current/Today</span>
                     </div>
+                    <div class="legend-item">
+                        <span class="legend-marker upcoming"></span>
+                        <span>Upcoming Stops</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker past"></span>
+                        <span>Past Stops</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Schedule -->
+            <div class="schedule-section">
+                <h2>📅 Upcoming Schedule</h2>
+                <div id="scheduleList" class="schedule-list">
+                    <div class="loading">Loading schedule...</div>
                 </div>
             </div>
         </section>
@@ -421,20 +709,111 @@
         Copyright © Knox Clinic. All rights reserved.
     </div>
 
+    <!-- Leaflet JS for mapping -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
     <script>
-        // Admin Login button functionality
+        // Initialize Map
+        let map;
+        let markers = [];
+        
+        function initMap() {
+            // Initialize Leaflet map centered on Rockland, ME
+            map = L.map('map').setView([44.1037, -69.1097], 12);
+            
+            // Add OpenStreetMap tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+            
+            // Add sample markers
+            addSampleMarkers();
+        }
+        
+        function addSampleMarkers() {
+            const sampleLocations = [
+                { lat: 44.1037, lng: -69.1097, name: 'AIO Food and Energy Service', type: 'current' },
+                { lat: 44.0800, lng: -69.1150, name: 'Camden Library', type: 'upcoming' },
+                { lat: 44.1200, lng: -69.0900, name: 'Community Center', type: 'past' }
+            ];
+            
+            sampleLocations.forEach(location => {
+                const color = location.type === 'current' ? '#00AAAC' : 
+                             location.type === 'upcoming' ? '#99CA3D' : '#999';
+                
+                const marker = L.circleMarker([location.lat, location.lng], {
+                    radius: 8,
+                    fillColor: color,
+                    color: '#fff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map);
+                
+                marker.bindPopup(`<b>${location.name}</b><br>Status: ${location.type}`);
+                markers.push(marker);
+            });
+        }
+        
+        // Update stats with sample data
+        function updateStats() {
+            document.getElementById('totalStops').textContent = '47';
+            document.getElementById('totalAttendees').textContent = '1,234';
+            document.getElementById('totalServices').textContent = '892';
+            document.getElementById('communitiesReached').textContent = '12';
+        }
+        
+        // Load schedule
+        function loadSchedule() {
+            const scheduleList = document.getElementById('scheduleList');
+            const sampleSchedule = [
+                { date: 'Tomorrow, 11:00am - 3:00pm', location: 'AIO Food and Energy service', services: ['Flu Shot', 'PCP Registration'] },
+                { date: 'Sun, Nov 30, 11:00am - 3:00pm', location: 'Camden Library', services: ['Dental', 'PCP Registration'] },
+                { date: 'Fri, Dec 5, 11:00am - 3:00pm', location: 'Camden Library', services: ['Health Screening'] }
+            ];
+            
+            scheduleList.innerHTML = sampleSchedule.map(item => `
+                <div class="schedule-item">
+                    <div class="schedule-date">${item.date}</div>
+                    <div class="schedule-details">
+                        <div class="schedule-location">📍 ${item.location}</div>
+                        <div class="schedule-services">
+                            ${item.services.map(service => `<span class="service-tag">${service}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Event Listeners
         document.querySelector('.admin-login-btn').addEventListener('click', function() {
             alert('Admin login functionality will be implemented here');
         });
-
-        // Add Event button functionality
+        
         document.querySelector('.add-event-btn').addEventListener('click', function() {
             alert('Add new event form will be implemented here');
         });
-
-        // Donate button functionality
+        
         document.querySelector('.donate-btn').addEventListener('click', function() {
             alert('Donation page will be implemented here');
+        });
+        
+        document.getElementById('refreshData').addEventListener('click', function() {
+            alert('Refreshing data...');
+            updateStats();
+            loadSchedule();
+        });
+        
+        document.getElementById('exportData').addEventListener('click', function() {
+            alert('Exporting report...');
+        });
+        
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            initMap();
+            updateStats();
+            loadSchedule();
         });
     </script>
 </body>
