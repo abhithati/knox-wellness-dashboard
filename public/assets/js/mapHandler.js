@@ -16,10 +16,10 @@ class MapHandler {
     /**
      * Initialize the map
      */
-     init() {
+    init() {
         // Create map
         this.map = L.map(this.containerId, {
-            //This will maek it so that you can't zoom beyond this and it will autmatically start on Maine
+            //This will make it so that you can't zoom beyond this and it will automatically start on Maine
             minZoom: 8,    
             maxZoom: 17
         }).setView(CONFIG.MAP_CENTER, CONFIG.MAP_ZOOM);
@@ -31,6 +31,34 @@ class MapHandler {
         }).addTo(this.map);
     
         console.log('Map initialized');
+        
+        // Make map globally accessible
+        window.map = this.map;
+        
+        // Setup listener for "View on map" clicks
+        this.setupPopupListener();
+    }
+
+    /**
+     * Listen for requests to open specific marker popup
+     */
+    setupPopupListener() {
+        window.addEventListener('openMarkerPopup', (event) => {
+            const location = event.detail;
+            
+            // Find the marker that matches this location
+            this.markers.forEach(marker => {
+                const markerLatLng = marker.getLatLng();
+                
+                // Check if this is the right marker (by comparing coordinates)
+                if (Math.abs(markerLatLng.lat - location.lat) < 0.0001 && 
+                    Math.abs(markerLatLng.lng - location.lng) < 0.0001) {
+                    
+                    // Open the popup for this marker
+                    marker.openPopup();
+                }
+            });
+        });
     }
 
     /**

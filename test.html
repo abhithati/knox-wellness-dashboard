@@ -395,6 +395,13 @@
         .location-address {
             color: var(--text-light);
             font-size: 13px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .location-address:hover {
+            color: var(--primary-teal);
+            text-decoration: underline;
         }
 
         .event-services {
@@ -968,7 +975,6 @@
 
                     <!-- Map -->
                     <div class="map-container">
-                        <h3 style="color: var(--primary-teal); font-size: 20px; font-weight: 500; margin-bottom: 15px;">Map</h3>
                         <div class="map-wrapper">
                             <div class="map-controls">
                                 <button id="resetMapBtn" class="reset-map-btn">
@@ -1328,6 +1334,28 @@
                 window.knoxMapCenter.initialZoom = mapInstance.getZoom();
             }
         };
+
+        // Listen for zoom to location event
+        window.addEventListener('zoomToLocation', function(event) {
+            const location = event.detail;
+            const mapInstance = window.knoxMapCenter.mapInstance || window.map;
+            
+            if (mapInstance && location) {
+                // Zoom to the location
+                mapInstance.setView([location.lat, location.lng], 15, {
+                    animate: true,
+                    duration: 1
+                });
+                
+                // Find and open the popup for this location
+                setTimeout(() => {
+                    // Dispatch event for mapHandler to open the correct popup
+                    window.dispatchEvent(new CustomEvent('openMarkerPopup', {
+                        detail: location
+                    }));
+                }, 1000);
+            }
+        });
         
         // Reset button functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -1423,7 +1451,36 @@
                 document.getElementById('todayBadge').textContent = formatShortDate(todayEvent.date);
                 document.getElementById('todayTime').textContent = todayEvent.time;
                 document.getElementById('todayLocation').textContent = todayEvent.name;
-                document.getElementById('todayAddress').textContent = 'View on map';
+                
+                // Make "View on map" clickable
+                const viewOnMapBtn = document.getElementById('todayAddress');
+                viewOnMapBtn.textContent = 'View on map';
+                viewOnMapBtn.style.cursor = 'pointer';
+                viewOnMapBtn.onclick = function() {
+                    // Scroll to map (not as far down)
+                    const mapElement = document.getElementById('map');
+                    const elementPosition = mapElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - 150; // 150px from top instead of center
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Dispatch event to zoom to this location
+                    setTimeout(() => {
+                        window.dispatchEvent(new CustomEvent('zoomToLocation', {
+                            detail: { 
+                                lat: todayEvent.lat, 
+                                lng: todayEvent.lng,
+                                name: todayEvent.name,
+                                services: todayEvent.services,
+                                time: todayEvent.time,
+                                date: todayEvent.date
+                            }
+                        }));
+                    }, 500); // Wait for scroll to finish
+                };
                 
                 const servicesContainer = document.getElementById('todayServices');
                 servicesContainer.innerHTML = todayEvent.services.map(service => 
