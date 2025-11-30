@@ -73,22 +73,19 @@
         /* Two Column Layout */
         .dashboard-layout {
             display: grid;
-            grid-template-columns: 320px 1fr;
+            grid-template-columns: 380px 1fr;
             gap: 35px;
-            align-items: start;
+            grid-template-areas: 
+                "calendar events"
+                "filters map";
         }
 
         .left-sidebar {
-            display: grid;
-            grid-template-rows: auto 1fr;
-            gap: 10px;
-            height: 100%;
+            display: contents;
         }
 
         .right-content {
-            display: grid;
-            grid-template-rows: auto 1fr;
-            gap: 10px;
+            display: contents;
         }
 
         /* Calendar Section */
@@ -98,6 +95,9 @@
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             height: fit-content;
+            min-height: 420px;
+            grid-area: calendar;
+            align-self: start;
         }
 
         /* Events container to match calendar height */
@@ -105,6 +105,9 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            grid-area: events;
+            align-self: start;
+            height: 420px;
         }
 
         .calendar-header {
@@ -167,9 +170,10 @@
             justify-content: center;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
             transition: all 0.3s;
             position: relative;
+            padding: 4px;
         }
 
         .calendar-day:hover {
@@ -207,32 +211,35 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
-            height: 100%;
+            gap: 16px;
+            width: 100%;
+            grid-area: filters;
+            align-self: center;
         }
 
         .find-services-panel .filter-group:last-of-type {
-            margin-bottom: auto;
+            margin-bottom: 0;
         }
 
         .find-services-panel .clear-filters-btn {
-            margin-top: auto;
+            margin-top: 8px;
         }
 
         .find-services-panel h3 {
             color: var(--primary-teal);
             font-size: 18px;
             font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .find-services-panel .subtitle {
             color: var(--text-light);
             font-size: 13px;
-            margin-bottom: 20px;
+            margin-bottom: 0;
         }
 
         .filter-group {
-            margin-bottom: 20px;
+            margin-bottom: 0;
         }
 
         .filter-group label {
@@ -246,7 +253,7 @@
         .filter-select,
         .filter-input {
             width: 100%;
-            padding: 10px 12px;
+            padding: 10px 35px 10px 12px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-family: 'Roboto', sans-serif;
@@ -254,6 +261,15 @@
             color: var(--text-dark);
             background-color: white;
             cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+        
+        .filter-input {
+            background-image: none;
+            padding: 10px 12px;
         }
 
         .time-inputs {
@@ -309,7 +325,7 @@
         /* Today's Event Section */
         .todays-event-section {
             background-color: #e6f7f7;
-            padding: 18px 20px;
+            padding: 15px 20px;
             border-radius: 12px;
             position: relative;
             flex-shrink: 0;
@@ -317,9 +333,9 @@
 
         .todays-event-section h3 {
             color: var(--primary-teal);
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 500;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             display: inline-block;
         }
 
@@ -348,7 +364,7 @@
             display: flex;
             justify-content: space-between;
             align-items: start;
-            margin-top: 12px;
+            margin-top: 10px;
         }
 
         .event-location {
@@ -407,6 +423,7 @@
             flex-direction: column;
             flex: 1;
             min-height: 0;
+            overflow: hidden;
         }
 
         .upcoming-events-section #upcomingEventsList {
@@ -548,6 +565,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            grid-area: map;
         }
 
         .map-wrapper {
@@ -557,7 +575,7 @@
 
         .map {
             height: 100%;
-            min-height: 600px;
+            min-height: 500px;
             border-radius: 8px;
             z-index: 1;
         }
@@ -859,7 +877,7 @@
                     <!-- Find Services Panel -->
                     <div class="find-services-panel">
                         <h3>Find Services</h3>
-                        <p class="subtitle">Filter events by service, location, or date</p>
+                        <p class="subtitle">Filter events by service type</p>
                         
                         <div class="filter-group">
                             <label>Service Type</label>
@@ -874,44 +892,6 @@
                                 <option value="wellness">Wellness Coaching</option>
                             </select>
                         </div>
-
-                        <div class="filter-group">
-                            <label>Location</label>
-                            <select id="locationFilter" class="filter-select">
-                                <option value="all">All Locations</option>
-                            </select>
-                        </div>
-
-                        <div class="filter-group">
-                            <label>Date</label>
-                            <input type="date" id="dateFilter" class="filter-input">
-                        </div>
-
-                        <div class="filter-group">
-                            <label>Times</label>
-                            <div class="time-inputs">
-                                <div class="time-input">
-                                    <input type="text" value="10:00" id="timeStart">
-                                    <select id="timeStartAMPM">
-                                        <option>AM</option>
-                                        <option>PM</option>
-                                    </select>
-                                </div>
-                                <span>to</span>
-                                <div class="time-input">
-                                    <input type="text" value="3:00" id="timeEnd">
-                                    <select id="timeEndAMPM">
-                                        <option>AM</option>
-                                        <option selected>PM</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="clear-filters-btn" id="clearAllFilters">
-                            <i class="fas fa-times"></i>
-                            Clear Filters
-                        </button>
                     </div>
                 </div>
 
@@ -975,17 +955,6 @@
                                 </button>
                             </div>
                             <div id="map" class="map"></div>
-                            <div class="map-legend">
-                                <h3>Legend</h3>
-                                <div class="legend-item">
-                                    <span class="legend-marker current"></span>
-                                    <span>Current/Today</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="legend-marker upcoming"></span>
-                                    <span>Upcoming Stops</span>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1052,7 +1021,7 @@
         // Global variables for map center and reset
         window.knoxMapCenter = {
             initialCenter: null,
-            initialZoom: 12,
+            initialZoom: null,
             mapInstance: null,
             locationsLoaded: false
         };
@@ -1063,7 +1032,6 @@
         // Load data function
         async function loadRealData() {
             try {
-                console.log('Loading real Google Sheets data...');
                 const scheduleData = await dataService.getSchedule();
                 
                 // Convert to format expected by the UI
@@ -1101,8 +1069,6 @@
                     };
                 });
                 
-                console.log('✓ Loaded', window.sampleVanLocations.length, 'van locations from Google Sheets');
-                
                 // Update filteredLocations
                 filteredLocations = [...window.sampleVanLocations];
                 
@@ -1126,16 +1092,7 @@
                     detail: { locations: window.sampleVanLocations }
                 }));
                 
-                // Store initial center and zoom (only first time)
-                if (!window.knoxMapCenter.locationsLoaded) {
-                    const center = window.calculateMapCenter(window.sampleVanLocations);
-                    window.knoxMapCenter.initialCenter = L.latLng(center.lat, center.lng);
-                    window.knoxMapCenter.initialZoom = center.zoom;
-                    window.knoxMapCenter.locationsLoaded = true;
-                }
-                
             } catch (error) {
-                console.error('Error loading Google Sheets data:', error);
                 // Keep using sample data as fallback
             }
         }
@@ -1144,7 +1101,6 @@
         if (typeof dataService !== 'undefined') {
             loadRealData();
         } else {
-            console.warn('dataService not available, waiting...');
             window.addEventListener('load', () => {
                 setTimeout(loadRealData, 1000);
             });
@@ -1157,7 +1113,7 @@
         
         // Pagination state
         let currentPage = 1;
-        const eventsPerPage = 4;
+        let eventsPerPage = 4; // Will be dynamically adjusted
 
         // Calendar functions
         function renderCalendar() {
@@ -1273,12 +1229,18 @@
             selectedDate = null;
             filteredLocations = [...window.sampleVanLocations];
             currentPage = 1; // Reset to first page
+            
+            // Reset service filter dropdown to "All Services"
+            const serviceFilter = document.getElementById('serviceFilter');
+            if (serviceFilter) {
+                serviceFilter.value = 'all';
+            }
+            
             renderCalendar();
             updateMapAndSchedule();
         }
 
         function updateMapAndSchedule() {
-            // This will be called by your existing map code
             // Dispatch event that your mapHandler can listen to
             window.dispatchEvent(new CustomEvent('filterLocations', {
                 detail: { locations: filteredLocations }
@@ -1286,6 +1248,9 @@
             
             // Update schedule list
             loadSchedule();
+            
+            // Also update the calendar to reflect filtered dates
+            renderCalendar();
         }
         
         // Function to calculate center from all locations
@@ -1372,6 +1337,34 @@
             }
         });
         
+        // Listen for filter locations event to update map markers
+        window.addEventListener('filterLocations', function(event) {
+            const locations = event.detail.locations;
+            
+            // Check if mapHandler exists and has the method to add markers
+            if (window.mapHandler && typeof window.mapHandler.addScheduleMarkers === 'function') {
+                window.mapHandler.addScheduleMarkers(locations);
+            }
+        });
+        
+        // Listen for locations loaded event
+        window.addEventListener('locationsLoaded', function(event) {
+            const locations = event.detail.locations;
+            
+            // Update map with new locations
+            if (window.mapHandler && typeof window.mapHandler.addScheduleMarkers === 'function') {
+                window.mapHandler.addScheduleMarkers(locations);
+                
+                // After markers are added, capture the initial center
+                setTimeout(() => {
+                    const mapInstance = window.map || window.knoxMapCenter.mapInstance;
+                    if (mapInstance && !window.knoxMapCenter.initialCenter) {
+                        window.knoxMapCenter.initialCenter = mapInstance.getCenter();
+                    }
+                }, 500);
+            }
+        });
+        
         // Reset button functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize calendar
@@ -1395,8 +1388,23 @@
             document.getElementById('prevPage').addEventListener('click', () => goToPage('prev'));
             document.getElementById('nextPage').addEventListener('click', () => goToPage('next'));
             
-            // Clear all filters button
-            document.getElementById('clearAllFilters').addEventListener('click', clearFilter);
+            // Service filter change handler
+            document.getElementById('serviceFilter').addEventListener('change', function(e) {
+                const selectedService = e.target.value;
+                
+                if (selectedService === 'all') {
+                    filteredLocations = [...window.sampleVanLocations];
+                } else {
+                    filteredLocations = window.sampleVanLocations.filter(loc => {
+                        return loc.services && loc.services.some(service => 
+                            service.toLowerCase().includes(selectedService.toLowerCase())
+                        );
+                    });
+                }
+                
+                currentPage = 1; // Reset to first page
+                updateMapAndSchedule();
+            });
             
             // Reset map button
             const resetBtn = document.getElementById('resetMapBtn');
@@ -1406,14 +1414,16 @@
                     
                     const mapInstance = window.map || window.knoxMapCenter.mapInstance;
                     
-                    if (mapInstance && window.knoxMapCenter.initialCenter) {
+                    if (mapInstance) {
                         // Close any open popups
                         mapInstance.closePopup();
                         
-                        // Reset to initial center with minimum zoom (furthest out)
-                        const minZoom = 8; // Minimum zoom level from mapHandler
-                        console.log('Resetting to initial center with min zoom:', minZoom);
-                        mapInstance.setView(window.knoxMapCenter.initialCenter, minZoom, {
+                        // Recalculate center based on current filtered locations
+                        const center = window.calculateMapCenter(filteredLocations);
+                        
+                        // Reset to calculated center with the calculated zoom
+                        console.log('Resetting to center:', center);
+                        mapInstance.setView([center.lat, center.lng], center.zoom, {
                             animate: true,
                             duration: 0.5
                         });
@@ -1434,6 +1444,9 @@
                 eventDate.setHours(0, 0, 0, 0);
                 return eventDate.getTime() === today.getTime();
             });
+            
+            // Set events per page based on whether there's a today event
+            eventsPerPage = todayEvent ? 3 : 4;
             
             // Update Today's Event section
             const todaysSection = document.getElementById('todaysEventSection');

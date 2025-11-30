@@ -19,7 +19,6 @@ class MapHandler {
     init() {
         // Create map
         this.map = L.map(this.containerId, {
-            //This will make it so that you can't zoom beyond this and it will automatically start on Maine
             minZoom: 8,    
             maxZoom: 17
         }).setView(CONFIG.MAP_CENTER, CONFIG.MAP_ZOOM);
@@ -29,8 +28,6 @@ class MapHandler {
             attribution: CONFIG.MAP_TILES.attribution,
             maxZoom: 19
         }).addTo(this.map);
-    
-        console.log('Map initialized');
         
         // Make map globally accessible
         window.map = this.map;
@@ -72,39 +69,70 @@ class MapHandler {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
+        // Group events by location (lat/lng)
+        const locationGroups = new Map();
+        
         schedule.forEach(stop => {
             // Skip if no coordinates
             if (!stop.lat || !stop.lng) {
-                console.warn(`No coordinates for ${stop.location}`);
+                console.warn(`No coordinates for ${stop.name || stop.location}`);
                 return;
             }
 
-            const stopDate = new Date(stop.date);
+            // Create a unique key for this location
+            const locationKey = `${stop.lat.toFixed(4)},${stop.lng.toFixed(4)}`;
+            
+            if (!locationGroups.has(locationKey)) {
+                locationGroups.set(locationKey, []);
+            }
+            locationGroups.get(locationKey).push(stop);
+        });
+
+        // Create one marker per location, using the soonest upcoming/current event
+        locationGroups.forEach((stops, locationKey) => {
+            // Sort by date
+            const sortedStops = stops.sort((a, b) => 
+                new Date(a.date + 'T00:00:00') - new Date(b.date + 'T00:00:00')
+            );
+            
+            // Find the soonest upcoming or current event
+            const upcomingStop = sortedStops.find(stop => {
+                const stopDate = new Date(stop.date + 'T00:00:00');
+                stopDate.setHours(0, 0, 0, 0);
+                return stopDate.getTime() >= today.getTime();
+            }) || sortedStops[sortedStops.length - 1]; // fallback to most recent if all past
+
+            const stopDate = new Date(upcomingStop.date + 'T00:00:00');
             stopDate.setHours(0, 0, 0, 0);
 
             // Determine marker color based on date
             let markerColor;
             let markerStatus;
             
+            console.log('Comparing dates:', stopDate.getTime(), 'vs', today.getTime(), 'for', upcomingStop.name || upcomingStop.location);
+            
             if (stopDate.getTime() === today.getTime()) {
                 markerColor = CONFIG.COLORS.currentStop;
                 markerStatus = 'Today';
+                console.log('✓ Marker is TODAY - should be green:', markerColor);
             } else if (stopDate > today) {
                 markerColor = CONFIG.COLORS.upcomingStop;
                 markerStatus = 'Upcoming';
+                console.log('→ Marker is UPCOMING - should be teal:', markerColor);
             } else {
                 markerColor = CONFIG.COLORS.pastStop;
                 markerStatus = 'Past';
+                console.log('← Marker is PAST - should be gray:', markerColor);
             }
 
             // Create custom icon
             const icon = this.createMarkerIcon(markerColor);
 
             // Create marker
-            const marker = L.marker([stop.lat, stop.lng], { icon: icon });
+            const marker = L.marker([upcomingStop.lat, upcomingStop.lng], { icon: icon });
 
             // Create popup content
-            const popupContent = this.createPopupContent(stop, markerStatus);
+            const popupContent = this.createPopupContent(upcomingStop, markerStatus);
             marker.bindPopup(popupContent);
 
             // Add to map
@@ -162,15 +190,71 @@ class MapHandler {
      * @returns {string} - HTML content
      */
     createPopupContent(stop, status) {
-        const servicesHTML = stop.services
+        // Get location name (handle both 'name' and 'location' properties)
+        const locationName = stop.name || stop.location;
+        
+        // Find all events at this location
+        const allEventsAtLocation = window.sampleVanLocations?.filter(loc => {
+            const locName = loc.name || loc.location;
+            return locName === locationName && 
+                   Math.abs(loc.lat - stop.lat) < 0.0001 && 
+                   Math.abs(loc.lng - stop.lng) < 0.0001;
+        }) || [stop];
+        
+        // Sort by date (soonest first)
+        const sortedEvents = allEventsAtLocation.sort((a, b) => 
+            new Date(a.date + 'T00:00:00') - new Date(b.date + 'T00:00:00')
+        );
+        
+        // Get the soonest upcoming or current event
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        const upcomingEvents = sortedEvents.filter(event => {
+            const eventDate = new Date(event.date + 'T00:00:00');
+            eventDate.setHours(0, 0, 0, 0);
+            return eventDate.getTime() >= today.getTime();
+        });
+        
+        // Use the soonest upcoming event, or fall back to the stop data
+        const primaryEvent = upcomingEvents[0] || stop;
+        const hasMultipleDates = upcomingEvents.length > 1;
+        
+        // Check if primary event is today
+        const primaryEventDate = new Date(primaryEvent.date + 'T00:00:00');
+        primaryEventDate.setHours(0, 0, 0, 0);
+        const isToday = primaryEventDate.getTime() === today.getTime();
+        
+        const servicesHTML = (primaryEvent.services || [])
             .map(service => `<span class="service-tag">${service}</span>`)
             .join('');
+        
+        // Create date label based on whether it's today or not
+        const dateLabel = isToday ? 
+            `<p style="margin: 4px 0; font-size: 14px;">
+                <strong>Today:</strong> ${this.formatDate(primaryEvent.date)}
+            </p>` :
+            `<p style="margin: 4px 0; font-size: 14px;">
+                <strong>Next Date:</strong> ${this.formatDate(primaryEvent.date)}
+            </p>`;
+        
+        // Create additional dates message
+        let additionalDatesHTML = '';
+        if (hasMultipleDates) {
+            const otherDates = upcomingEvents.slice(1).map(event => 
+                this.formatDate(event.date)
+            ).join(', ');
+            additionalDatesHTML = `
+                <p style="margin: 8px 0 4px 0; font-size: 13px; color: #00AAAC; font-weight: 600;">
+                    Also scheduled: ${otherDates}
+                </p>
+            `;
+        }
 
         return `
             <div style="min-width: 200px;">
                 <div style="
-                    background-color: ${this.getStatusColor(status)};
-                    color: white;
+                    color: #00AAAC;
                     padding: 4px 8px;
                     margin: -10px -10px 10px -10px;
                     border-radius: 4px 4px 0 0;
@@ -179,24 +263,24 @@ class MapHandler {
                 ">${status}</div>
                 
                 <h3 style="margin: 0 0 8px 0; font-size: 16px;">
-                    ${stop.location}
+                    ${primaryEvent.name || primaryEvent.location || 'Unknown Location'}
                 </h3>
                 
+                ${dateLabel}
+                
+                ${additionalDatesHTML}
+                
                 <p style="margin: 4px 0; font-size: 14px;">
-                    <strong>📅 Date:</strong> ${this.formatDate(stop.date)}
+                    <strong>Time:</strong> ${primaryEvent.time || 'TBD'}
                 </p>
                 
                 <p style="margin: 4px 0; font-size: 14px;">
-                    <strong>🕐 Time:</strong> ${stop.time}
+                    <strong>Address:</strong> ${primaryEvent.address || 'Address not available'}
                 </p>
                 
-                <p style="margin: 4px 0; font-size: 14px;">
-                    <strong>📍 Address:</strong> ${stop.address}
-                </p>
-                
-                ${stop.zipCode ? `
+                ${primaryEvent.zipCode ? `
                     <p style="margin: 4px 0; font-size: 14px;">
-                        <strong>📮 Zip:</strong> ${stop.zipCode}
+                        <strong>Zip:</strong> ${primaryEvent.zipCode}
                     </p>
                 ` : ''}
                 
@@ -207,9 +291,9 @@ class MapHandler {
                     </div>
                 </div>
                 
-                ${stop.notes ? `
+                ${primaryEvent.notes ? `
                     <p style="margin-top: 12px; font-size: 12px; color: #666; font-style: italic;">
-                        ${stop.notes}
+                        ${primaryEvent.notes}
                     </p>
                 ` : ''}
             </div>
@@ -222,16 +306,7 @@ class MapHandler {
      * @returns {string} - Color code
      */
     getStatusColor(status) {
-        switch (status) {
-            case 'Today':
-                return CONFIG.COLORS.success;
-            case 'Upcoming':
-                return CONFIG.COLORS.primary;
-            case 'Past':
-                return CONFIG.COLORS.pastStop;
-            default:
-                return CONFIG.COLORS.secondary;
-        }
+        return '#00AAAC'; // Knox Clinic teal for all statuses
     }
 
     /**
@@ -240,7 +315,8 @@ class MapHandler {
      * @returns {string}
      */
     formatDate(dateString) {
-        const date = new Date(dateString);
+        // Add 'T00:00:00' to ensure it's parsed as local time, not UTC
+        const date = new Date(dateString + 'T00:00:00');
         return date.toLocaleDateString('en-US', {
             weekday: 'short',
             year: 'numeric',
