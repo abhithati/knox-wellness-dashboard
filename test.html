@@ -35,7 +35,7 @@
         /* Header Override */
         .header {
             background-color: white;
-            padding: 15px 50px;
+            padding: 10px 50px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.06);
             border-bottom: 1px solid #f0f0f0;
             position: sticky;
@@ -53,37 +53,11 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
         }
 
-        .logo::before {
-            content: '';
-            width: 40px;
-            height: 40px;
-            position: relative;
-            display: block;
-            background-image: 
-                linear-gradient(var(--primary-teal), var(--primary-teal)),
-                linear-gradient(var(--primary-teal), var(--primary-teal));
-            background-size: 15px 40px, 40px 15px;
-            background-position: center, center;
-            background-repeat: no-repeat;
-        }
-
-        .logo h1 {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--primary-teal);
-            letter-spacing: 0.5px;
-            margin: 0;
-        }
-
-        .logo .subtitle {
-            font-size: 12px;
-            color: var(--primary-green);
-            font-style: italic;
-            margin: 0;
-            font-weight: 400;
+        .logo img {
+            height: 65px;
+            width: auto;
         }
 
         /* Main Content */
@@ -100,27 +74,27 @@
         .dashboard-layout {
             display: grid;
             grid-template-columns: 320px 1fr;
-            gap: 30px;
+            gap: 35px;
             align-items: start;
         }
 
         .left-sidebar {
             display: grid;
             grid-template-rows: auto 1fr;
-            gap: 25px;
+            gap: 10px;
             height: 100%;
         }
 
         .right-content {
             display: grid;
             grid-template-rows: auto 1fr;
-            gap: 25px;
+            gap: 10px;
         }
 
         /* Calendar Section */
         .calendar-section {
             background-color: white;
-            padding: 20px;
+            padding: 25px;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             height: fit-content;
@@ -130,7 +104,7 @@
         .events-container {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 10px;
         }
 
         .calendar-header {
@@ -175,7 +149,7 @@
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
+            gap: 6px;
         }
 
         .calendar-day-header {
@@ -335,7 +309,7 @@
         /* Today's Event Section */
         .todays-event-section {
             background-color: #e6f7f7;
-            padding: 25px;
+            padding: 18px 20px;
             border-radius: 12px;
             position: relative;
             flex-shrink: 0;
@@ -345,7 +319,7 @@
             color: var(--primary-teal);
             font-size: 20px;
             font-weight: 500;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: inline-block;
         }
 
@@ -374,7 +348,7 @@
             display: flex;
             justify-content: space-between;
             align-items: start;
-            margin-top: 15px;
+            margin-top: 12px;
         }
 
         .event-location {
@@ -503,7 +477,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 12px 0;
             border-bottom: 1px solid #f0f0f0;
         }
 
@@ -782,21 +756,11 @@
         /* Responsive Design */
         @media (max-width: 968px) {
             .header {
-                padding: 12px 20px;
+                padding: 8px 20px;
             }
 
-            .logo::before {
-                width: 35px;
-                height: 35px;
-                background-size: 12px 35px, 35px 12px;
-            }
-
-            .logo h1 {
-                font-size: 18px;
-            }
-
-            .logo .subtitle {
-                font-size: 11px;
+            .logo img {
+                height: 50px;
             }
 
             .main-content {
@@ -866,10 +830,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <div>
-                        <h1>KNOX CLINIC</h1>
-                        <p class="subtitle">Your Mid Coast Health Net</p>
-                    </div>
+                    <img src="./public/assets/png/knox_logo.png" alt="Knox Clinic Logo">
                 </div>
             </div>
         </div>
