@@ -443,13 +443,13 @@
         }
 
         .location-info a {
-            display: inline-block;
-            margin-bottom: 5px;
+            color: var(--text-light);
+            text-decoration: none;
         }
 
-        .location-name {
-            font-weight: 500;
-            color: var(--text-dark);
+        .location-info {
+            display: flex;
+            align-items: start;
         }
 
         .location-address {
@@ -457,6 +457,14 @@
             font-size: 12px;
             cursor: pointer;
             transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .location-name {
+            font-weight: 500;
+            color: var(--text-dark);
         }
 
         .location-address a {
@@ -481,14 +489,34 @@
             text-decoration: underline;
         }
 
+        .location-address a i,
+        .view-on-map-link i {
+            display: none;
+        }
+
+        .desktop-separator {
+            display: inline;
+        }
+
         @media (max-width: 968px) {
             .location-info {
                 display: flex;
                 flex-direction: column;
+                align-items: start;
+            }
+
+            .location-address {
+                flex-direction: column;
+                align-items: flex-start;
                 gap: 8px;
             }
 
+            .desktop-separator {
+                display: none;
+            }
+
             .location-address a {
+                display: inline-block;
                 background-color: var(--primary-teal);
                 color: white !important;
                 padding: 8px 12px;
@@ -518,6 +546,12 @@
                 background-color: var(--primary-teal);
                 color: white !important;
                 text-decoration: none;
+            }
+
+            .location-address a i,
+            .view-on-map-link i {
+                display: inline;
+                margin-right: 5px;
             }
         }
 
@@ -1943,16 +1977,14 @@
                         <div class="event-location">
                             <i class="fas fa-map-marker-alt"></i>
                             <div class="location-info">
-                                <p class="location-address">
+                                <div class="location-address">
                                     <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}" target="_blank">
-                                        <i class="fas fa-directions"></i> ${event.address}
+                                        <i class="fas fa-directions"></i>${event.address}
                                     </a>
-                                </p>
-                                <p>
                                     <span class="view-on-map-link" data-lat="${event.lat}" data-lng="${event.lng}" data-name="${event.name}">
-                                        <i class="fas fa-map"></i> View on map
+                                        <i class="fas fa-map"></i><span class="desktop-separator"> • </span>View on map
                                     </span>
-                                </p>
+                                </div>
                             </div>
                         </div>
                         <div class="event-services">
