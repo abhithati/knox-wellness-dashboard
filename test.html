@@ -214,7 +214,7 @@
             gap: 16px;
             width: 100%;
             grid-area: filters;
-            align-self: center;
+            align-self: start;
         }
 
         .find-services-panel .filter-group:last-of-type {
@@ -339,25 +339,83 @@
             display: inline-block;
         }
 
+        .todays-event-nav {
+            float: right;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .todays-event-nav button {
+            background: white;
+            border: 1px solid var(--primary-teal);
+            color: var(--primary-teal);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .todays-event-nav button:hover:not(:disabled) {
+            background-color: var(--primary-teal);
+            color: white;
+        }
+
+        .todays-event-nav button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .todays-event-nav span {
+            font-size: 12px;
+            color: var(--text-light);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .todays-event-item {
+            display: none;
+        }
+
+        .todays-event-item.active {
+            display: block;
+        }
+
+        .event-header-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .event-location-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 15px;
+        }
+
         .event-badge {
             display: inline-block;
             background-color: var(--primary-green);
             color: white;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 11px;
             font-weight: 500;
-            margin-left: 10px;
         }
 
         .event-time {
             display: inline-block;
             border: 1px solid var(--primary-green);
             color: var(--primary-green);
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            margin-left: 5px;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 11px;
         }
 
         .event-details {
@@ -365,6 +423,7 @@
             justify-content: space-between;
             align-items: start;
             margin-top: 10px;
+            gap: 15px;
         }
 
         .event-location {
@@ -380,7 +439,7 @@
 
         .location-info p {
             margin: 0;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .location-name {
@@ -390,7 +449,7 @@
 
         .location-address {
             color: var(--text-light);
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             transition: color 0.3s;
         }
@@ -402,7 +461,8 @@
 
         .event-services {
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            flex-wrap: wrap;
         }
 
         .event-actions {
@@ -416,7 +476,7 @@
         /* Upcoming Events Section */
         .upcoming-events-section {
             background-color: white;
-            padding: 25px;
+            padding: 20px 25px 30px 25px;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             display: flex;
@@ -431,18 +491,22 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
+            padding-bottom: 10px;
         }
 
         /* When Today's Event is hidden, Upcoming Events takes full calendar height */
         .todays-event-section[style*="display: none"] ~ .upcoming-events-section {
-            height: 100%;
+            height: 420px;
+            padding: 20px 25px 30px 25px;
         }
 
         .upcoming-events-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
         }
 
         .upcoming-events-section h3 {
@@ -450,6 +514,41 @@
             font-size: 20px;
             font-weight: 500;
             margin: 0;
+        }
+
+        .events-column-headers {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-date {
+            min-width: 120px;
+        }
+
+        .header-location {
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .header-services {
+            min-width: 200px;
+        }
+
+        .pagination-footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
         }
 
         .pagination-controls {
@@ -494,7 +593,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
+            padding: 15px 0;
             border-bottom: 1px solid #f0f0f0;
         }
 
@@ -517,11 +616,21 @@
             font-size: 13px;
         }
 
-        .event-location-name {
+        .event-location-info {
             flex: 1;
+            padding: 0 20px;
+        }
+
+        .event-location-name {
             color: var(--text-dark);
             font-size: 14px;
-            padding: 0 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .event-location-address {
+            color: var(--text-light);
+            font-size: 13px;
         }
 
         .event-item-services {
@@ -678,7 +787,7 @@
         /* Footer Override */
         .footer {
             background-color: var(--light-green);
-            padding: 40px 50px 0 50px;
+            padding: 60px 50px 50px 50px;
             margin-top: 40px;
         }
 
@@ -688,7 +797,6 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 100px;
-            padding-bottom: 40px;
         }
 
         .contact-section {
@@ -696,75 +804,132 @@
         }
 
         .donate-section {
-            text-align: center;
+            text-align: left;
+            margin-left: auto;
+            max-width: 400px;
         }
 
         .footer h3 {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--text-dark);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
 
         .footer p {
             color: var(--text-dark);
-            line-height: 1.8;
-            font-size: 13px;
-            margin-bottom: 6px;
+            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 4px;
         }
 
         .donate-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
             background-color: var(--primary-green);
-            color: white;
+            color: white !important;
             border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             transition: background-color 0.3s;
+            text-decoration: none !important;
+            position: relative;
+        }
+
+        .donate-btn i {
+            font-size: 16px;
+            color: white !important;
         }
 
         .donate-btn:hover {
-            background-color: #8ab832;
+            background-color: var(--primary-teal);
+            color: white !important;
+            text-decoration: none !important;
+        }
+
+        .donate-btn:hover::after {
+            content: 'Click to Donate!';
+            position: absolute;
+            bottom: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #666;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .social-links {
             display: flex;
-            gap: 12px;
-            margin-top: 0;
-            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .social-icon {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255,255,255,0.6);
-            border-radius: 8px;
+            width: 35px;
+            height: 35px;
+            background-color: transparent;
+            border-radius: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666;
-            font-size: 18px;
+            color: white !important;
+            font-size: 22px;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
         }
 
+        .social-icon i {
+            color: white !important;
+        }
+
         .social-icon:hover {
-            background-color: white;
+            opacity: 0.7;
             transform: translateY(-2px);
         }
 
         .copyright-bar {
             background-color: var(--primary-teal);
             color: white;
-            text-align: center;
-            padding: 15px;
+            padding: 20px 50px;
             font-size: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .copyright-left {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            text-align: center;
+        }
+
+        .developed-by {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .developed-by a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .developed-by a:hover {
+            opacity: 0.7;
+            text-decoration: underline;
         }
 
         .data-update {
@@ -787,35 +952,67 @@
 
             .dashboard-layout {
                 grid-template-columns: 1fr;
-                grid-template-rows: auto;
+                grid-template-areas: 
+                    "events"
+                    "calendar"
+                    "filters"
+                    "map";
+                gap: 20px;
             }
 
-            .left-sidebar {
-                order: 2;
-                grid-template-rows: auto auto;
+            .calendar-section {
+                min-height: auto;
             }
 
-            .right-content {
-                order: 1;
-                grid-template-rows: auto auto;
+            .events-container {
+                height: auto;
             }
 
             .calendar-day {
                 font-size: 12px;
+                padding: 2px;
+            }
+
+            .filter-select,
+            .filter-input {
+                padding: 12px 35px 12px 14px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .filter-input {
+                padding: 12px 14px;
+            }
+
+            .time-input input,
+            .time-input select {
+                padding: 10px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .pagination-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .calendar-nav button {
+                font-size: 24px;
+                padding: 8px;
             }
 
             .map {
                 min-height: 400px;
             }
 
-            .map-legend {
-                position: static;
-                margin-top: 15px;
-            }
-
             .map-controls {
                 position: static;
                 margin-bottom: 15px;
+            }
+
+            .reset-map-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 20px;
             }
 
             .footer .container {
@@ -824,17 +1021,85 @@
             }
 
             .footer {
-                padding: 30px 20px 0 20px;
+                padding: 40px 20px 40px 20px;
+            }
+
+            .donate-section {
+                margin-left: 0;
+            }
+
+            .copyright-bar {
+                padding: 20px;
             }
 
             .upcoming-event-item {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
+                padding: 15px 0;
             }
 
-            .event-location-name {
+            .event-location-info {
                 padding: 0;
+            }
+
+            .event-date-time {
+                min-width: auto;
+            }
+            
+            .events-column-headers {
+                display: none;
+            }
+            
+            .header-location {
+                padding: 0;
+            }
+
+            .todays-event-section {
+                padding: 15px;
+            }
+
+            .event-details {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .event-badge,
+            .event-time {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo img {
+                height: 40px;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+
+            .calendar-section,
+            .find-services-panel,
+            .todays-event-section,
+            .upcoming-events-section,
+            .map-container {
+                padding: 15px;
+            }
+
+            .service-tag {
+                font-size: 11px;
+                padding: 3px 10px;
+            }
+
+            .upcoming-events-section h3,
+            .todays-event-section h3 {
+                font-size: 16px;
+            }
+
+            .find-services-panel h3 {
+                font-size: 16px;
             }
         }
     </style>
@@ -901,44 +1166,26 @@
                     <div class="events-container">
                         <!-- Today's Event -->
                         <div class="todays-event-section" id="todaysEventSection">
-                        <div class="event-actions">
-                            <button class="icon-btn"><i class="fas fa-plus"></i></button>
-                            <button class="icon-btn"><i class="fas fa-edit"></i></button>
-                            <button class="icon-btn"><i class="fas fa-trash"></i></button>
+                            <!-- Events will be dynamically generated here -->
                         </div>
-                        <div>
-                            <h3>Today's Event</h3>
-                            <span class="event-badge" id="todayBadge">Oct 28</span>
-                            <span class="event-time" id="todayTime">11:00am - 3:00pm</span>
-                        </div>
-                        <div class="event-details">
-                            <div class="event-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <div class="location-info">
-                                    <p class="location-name" id="todayLocation">Location</p>
-                                    <p class="location-address" id="todayAddress">Address</p>
-                                </div>
-                            </div>
-                            <div>
-                                <i class="fas fa-stethoscope" style="color: var(--primary-teal); margin-right: 8px;"></i>
-                                <span style="font-weight: 600; font-size: 14px;">Service</span>
-                                <div class="event-services" id="todayServices" style="margin-top: 8px;">
-                                    <!-- Services will be added here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Upcoming Events -->
                     <div class="upcoming-events-section">
                         <div class="upcoming-events-header">
-                            <h3>Upcoming Event</h3>
+                            <h3>Upcoming Events</h3>
                             <div class="pagination-controls">
                                 <button class="pagination-btn" id="prevPage" disabled>‹</button>
                                 <span class="pagination-info" id="pageInfo">1 / 1</span>
                                 <button class="pagination-btn" id="nextPage" disabled>›</button>
                             </div>
                         </div>
+                        
+                        <div class="events-column-headers">
+                            <div class="header-date">Date & Time</div>
+                            <div class="header-location">Location</div>
+                            <div class="header-services">Services</div>
+                        </div>
+                        
                         <div id="upcomingEventsList">
                             <!-- Upcoming events will be listed here -->
                         </div>
@@ -967,29 +1214,33 @@
         <div class="container">
             <div class="contact-section">
                 <h3>Contact Us</h3>
-                <div>
-                    <p style="font-weight: 500;">Mid Coast Health Net</p>
-                    <p>d.b.a. The Knox Clinic</p>
-                    <p style="margin-top: 18px;">22 White Street</p>
-                    <p>Rockland, ME 04841</p>
-                    <p style="margin-top: 18px;">Phone: (207) 680-4545</p>
-                    <p>Fax: (207) 680-4544</p>
-                </div>
+                <p style="font-weight: 500;">Mid Coast Health Net</p>
+                <p>d.b.a. The Knox Clinic</p>
+                <p style="margin-top: 18px;">22 White Street</p>
+                <p>Rockland, ME 04841</p>
+                <p style="margin-top: 18px;">Phone: (207) 680-4545</p>
+                <p>Fax: (207) 680-4544</p>
             </div>
             <div class="donate-section">
                 <h3>Donate</h3>
-                <button class="donate-btn">Please Donate Today!</button>
+                <a href="https://knoxclinic.org/make-a-difference/" class="donate-btn" target="_blank">
+                    <i class="fas fa-credit-card"></i>
+                    Please Donate Today!
+                </a>
                 
-                <h3 style="margin-top: 30px;">Follow Us</h3>
+                <h3>Follow Us</h3>
                 <div class="social-links">
-                    <a href="#" class="social-icon" aria-label="Facebook">
+                    <a href="https://www.facebook.com/KnoxCountyHealthClinic/" class="social-icon" aria-label="Facebook" target="_blank">
                         <i class="fab fa-facebook-f"></i>
                     </a>
-                    <a href="#" class="social-icon" aria-label="Instagram">
+                    <a href="https://www.instagram.com/knoxclinic/" class="social-icon" aria-label="Instagram" target="_blank">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="#" class="social-icon" aria-label="LinkedIn">
+                    <a href="https://www.linkedin.com/company/knox-clinic/" class="social-icon" aria-label="LinkedIn" target="_blank">
                         <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@knoxclinic" class="social-icon" aria-label="TikTok" target="_blank">
+                        <i class="fab fa-tiktok"></i>
                     </a>
                 </div>
             </div>
@@ -998,7 +1249,12 @@
     
     <!-- Copyright Bar -->
     <div class="copyright-bar">
-        Copyright © Knox Clinic. All rights reserved.
+        <div class="copyright-left">
+            <span>Copyright Knox Clinic</span>
+            <div class="developed-by">
+                Developed by <a href="https://scout.camd.northeastern.edu/" target="_blank">Scout</a>
+            </div>
+        </div>
     </div>
 
     <!-- Leaflet JS for mapping -->
@@ -1034,20 +1290,26 @@
             try {
                 const scheduleData = await dataService.getSchedule();
                 
+                // Get today's timestamp for comparison
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                console.log('Today is:', today.toDateString(), 'Timestamp:', today.getTime());
+                
                 // Convert to format expected by the UI
                 window.sampleVanLocations = scheduleData.map(item => {
                     // Determine if event is past, current, or upcoming
-                    const eventDate = new Date(item.date);
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
+                    const eventDate = new Date(item.date + 'T00:00:00');
                     eventDate.setHours(0, 0, 0, 0);
                     
                     let type = 'upcoming';
                     if (eventDate.getTime() === today.getTime()) {
                         type = 'current';
-                    } else if (eventDate < today) {
+                    } else if (eventDate.getTime() < today.getTime()) {
                         type = 'past';
                     }
+                    
+                    // Log each event's date comparison
+                    console.log(item.location, '- Date:', item.date, 'Parsed:', eventDate.toDateString(), 'Type:', type);
                     
                     // Ensure date is in YYYY-MM-DD format
                     let formattedDate = item.date;
@@ -1068,6 +1330,8 @@
                         notes: item.notes
                     };
                 });
+                
+                console.log('Total locations loaded:', window.sampleVanLocations.length);
                 
                 // Update filteredLocations
                 filteredLocations = [...window.sampleVanLocations];
@@ -1114,6 +1378,8 @@
         // Pagination state
         let currentPage = 1;
         let eventsPerPage = 4; // Will be dynamically adjusted
+        let currentTodayEventIndex = 0;
+        let todayEventsData = [];
 
         // Calendar functions
         function renderCalendar() {
@@ -1341,9 +1607,10 @@
         window.addEventListener('filterLocations', function(event) {
             const locations = event.detail.locations;
             
-            // Check if mapHandler exists and has the method to add markers
-            if (window.mapHandler && typeof window.mapHandler.addScheduleMarkers === 'function') {
-                window.mapHandler.addScheduleMarkers(locations);
+            // Check if mapHandler exists (could be in window or in dashboardApp)
+            const mapHandler = window.mapHandler || window.dashboardApp?.mapHandler;
+            if (mapHandler && typeof mapHandler.addScheduleMarkers === 'function') {
+                mapHandler.addScheduleMarkers(locations);
             }
         });
         
@@ -1351,9 +1618,10 @@
         window.addEventListener('locationsLoaded', function(event) {
             const locations = event.detail.locations;
             
-            // Update map with new locations
-            if (window.mapHandler && typeof window.mapHandler.addScheduleMarkers === 'function') {
-                window.mapHandler.addScheduleMarkers(locations);
+            // Check if mapHandler exists (could be in window or in dashboardApp)
+            const mapHandler = window.mapHandler || window.dashboardApp?.mapHandler;
+            if (mapHandler && typeof mapHandler.addScheduleMarkers === 'function') {
+                mapHandler.addScheduleMarkers(locations);
                 
                 // After markers are added, capture the initial center
                 setTimeout(() => {
@@ -1438,69 +1706,28 @@
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             
-            // Find today's event
-            const todayEvent = filteredLocations.find(loc => {
+            // Find all today's events
+            todayEventsData = filteredLocations.filter(loc => {
                 const eventDate = new Date(loc.date + 'T00:00:00');
                 eventDate.setHours(0, 0, 0, 0);
                 return eventDate.getTime() === today.getTime();
             });
             
-            // Set events per page based on whether there's a today event
-            eventsPerPage = todayEvent ? 3 : 4;
+            // Set events per page based on whether there are today events
+            eventsPerPage = todayEventsData.length > 0 ? 3 : 4;
             
-            // Update Today's Event section
-            const todaysSection = document.getElementById('todaysEventSection');
-            if (todayEvent) {
-                todaysSection.style.display = 'block';
-                document.getElementById('todayBadge').textContent = formatShortDate(todayEvent.date);
-                document.getElementById('todayTime').textContent = todayEvent.time;
-                document.getElementById('todayLocation').textContent = todayEvent.name;
-                
-                // Make "View on map" clickable
-                const viewOnMapBtn = document.getElementById('todayAddress');
-                viewOnMapBtn.textContent = 'View on map';
-                viewOnMapBtn.style.cursor = 'pointer';
-                viewOnMapBtn.onclick = function() {
-                    // Scroll to map (not as far down)
-                    const mapElement = document.getElementById('map');
-                    const elementPosition = mapElement.getBoundingClientRect().top + window.pageYOffset;
-                    const offsetPosition = elementPosition - 150; // 150px from top instead of center
-                    
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Dispatch event to zoom to this location
-                    setTimeout(() => {
-                        window.dispatchEvent(new CustomEvent('zoomToLocation', {
-                            detail: { 
-                                lat: todayEvent.lat, 
-                                lng: todayEvent.lng,
-                                name: todayEvent.name,
-                                services: todayEvent.services,
-                                time: todayEvent.time,
-                                date: todayEvent.date
-                            }
-                        }));
-                    }, 500); // Wait for scroll to finish
-                };
-                
-                const servicesContainer = document.getElementById('todayServices');
-                servicesContainer.innerHTML = todayEvent.services.map(service => 
-                    `<span class="service-tag">${service}</span>`
-                ).join('');
-            } else {
-                todaysSection.style.display = 'none';
-            }
+            // Reset to first today event when data changes
+            currentTodayEventIndex = 0;
             
+            // Render today's events
+            renderTodayEvents();
             // Update Upcoming Events section with pagination
             const upcomingList = document.getElementById('upcomingEventsList');
             const upcomingEvents = filteredLocations.filter(loc => {
                 const eventDate = new Date(loc.date + 'T00:00:00');
                 eventDate.setHours(0, 0, 0, 0);
                 return eventDate.getTime() > today.getTime();
-            }).sort((a, b) => new Date(a.date) - new Date(b.date));
+            }).sort((a, b) => new Date(a.date + 'T00:00:00') - new Date(b.date + 'T00:00:00'));
             
             if (upcomingEvents.length === 0) {
                 upcomingList.innerHTML = '<div class="loading">No upcoming events found</div>';
@@ -1521,7 +1748,10 @@
                         <div class="event-date-label">${formatShortDate(item.date)}</div>
                         <div class="event-time-label">${item.time}</div>
                     </div>
-                    <div class="event-location-name">${item.name}</div>
+                    <div class="event-location-info">
+                        <div class="event-location-name">${item.name}</div>
+                        <div class="event-location-address">${item.address}</div>
+                    </div>
                     <div class="event-item-services">
                         ${item.services.map(service => `<span class="service-tag">${service}</span>`).join('')}
                     </div>
@@ -1531,6 +1761,122 @@
             // Update pagination controls
             updatePaginationControls(currentPage, totalPages);
         }
+        
+        function renderTodayEvents() {
+            const todaysSection = document.getElementById('todaysEventSection');
+            
+            if (todayEventsData.length === 0) {
+                todaysSection.style.display = 'none';
+                return;
+            }
+            
+            todaysSection.style.display = 'block';
+            
+            // Create header with navigation
+            const headerText = todayEventsData.length === 1 ? "Today's Event" : "Today's Events";
+            const navHTML = todayEventsData.length > 1 ? `
+                <div class="todays-event-nav">
+                    <button id="prevTodayEvent">‹</button>
+                    <span id="todayEventCounter">1 / ${todayEventsData.length}</span>
+                    <button id="nextTodayEvent">›</button>
+                </div>
+            ` : '';
+            
+            // Create HTML for all today's events
+            const eventsHTML = todayEventsData.map((event, index) => `
+                <div class="todays-event-item ${index === currentTodayEventIndex ? 'active' : ''}" data-index="${index}">
+                    <div class="event-header-row">
+                        <span class="event-location-title">${event.name}</span>
+                        <span class="event-time">${event.time}</span>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="location-info">
+                                <p class="location-address" data-lat="${event.lat}" data-lng="${event.lng}" data-name="${event.name}">
+                                    ${event.address} • View on map
+                                </p>
+                            </div>
+                        </div>
+                        <div class="event-services">
+                            ${event.services.map(service => `<span class="service-tag">${service}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            todaysSection.innerHTML = `
+                <div style="margin-bottom: 10px;">
+                    <h3>${headerText}</h3>
+                    ${navHTML}
+                    <div style="clear: both;"></div>
+                </div>
+                ${eventsHTML}
+            `;
+            
+            // Add click handlers for "View on map" links
+            todaysSection.querySelectorAll('.location-address').forEach(link => {
+                link.onclick = function() {
+                    const lat = parseFloat(this.dataset.lat);
+                    const lng = parseFloat(this.dataset.lng);
+                    const name = this.dataset.name;
+                    
+                    // Scroll to map
+                    const mapElement = document.getElementById('map');
+                    const elementPosition = mapElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - 150;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Zoom to location
+                    setTimeout(() => {
+                        window.dispatchEvent(new CustomEvent('zoomToLocation', {
+                            detail: { lat, lng, name }
+                        }));
+                    }, 500);
+                };
+            });
+            
+            // Add navigation handlers if multiple events
+            if (todayEventsData.length > 1) {
+                document.getElementById('prevTodayEvent')?.addEventListener('click', () => navigateTodayEvents('prev'));
+                document.getElementById('nextTodayEvent')?.addEventListener('click', () => navigateTodayEvents('next'));
+                updateTodayEventNavButtons();
+            }
+        }
+        
+        function navigateTodayEvents(direction) {
+            if (direction === 'next' && currentTodayEventIndex < todayEventsData.length - 1) {
+                currentTodayEventIndex++;
+            } else if (direction === 'prev' && currentTodayEventIndex > 0) {
+                currentTodayEventIndex--;
+            }
+            
+            // Update which event is visible
+            document.querySelectorAll('.todays-event-item').forEach((item, index) => {
+                if (index === currentTodayEventIndex) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Update counter and buttons
+            document.getElementById('todayEventCounter').textContent = `${currentTodayEventIndex + 1} / ${todayEventsData.length}`;
+            updateTodayEventNavButtons();
+        }
+        
+        function updateTodayEventNavButtons() {
+            const prevBtn = document.getElementById('prevTodayEvent');
+            const nextBtn = document.getElementById('nextTodayEvent');
+            
+            if (prevBtn) prevBtn.disabled = currentTodayEventIndex === 0;
+            if (nextBtn) nextBtn.disabled = currentTodayEventIndex === todayEventsData.length - 1;
+        }
+        
         
         function updatePaginationControls(page, totalPages) {
             const prevBtn = document.getElementById('prevPage');

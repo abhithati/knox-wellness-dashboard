@@ -246,7 +246,7 @@ class MapHandler {
             ).join(', ');
             additionalDatesHTML = `
                 <p style="margin: 8px 0 4px 0; font-size: 13px; color: #00AAAC; font-weight: 600;">
-                    Upcoming: ${otherDates}
+                    Also scheduled: ${otherDates}
                 </p>
             `;
         }
