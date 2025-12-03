@@ -442,6 +442,11 @@
             font-size: 13px;
         }
 
+        .location-info a {
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
         .location-name {
             font-weight: 500;
             color: var(--text-dark);
@@ -454,9 +459,66 @@
             transition: color 0.3s;
         }
 
-        .location-address:hover {
+        .location-address a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .location-address a:hover {
             color: var(--primary-teal);
+        }
+
+        .view-on-map-link {
+            color: var(--primary-teal);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .view-on-map-link:hover {
             text-decoration: underline;
+        }
+
+        @media (max-width: 968px) {
+            .location-info {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .location-address a {
+                background-color: var(--primary-teal);
+                color: white !important;
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 12px;
+                font-weight: 500;
+                transition: background-color 0.3s;
+            }
+
+            .location-address a:hover {
+                background-color: #008a8c;
+            }
+
+            .view-on-map-link {
+                display: inline-block;
+                background-color: white;
+                color: var(--primary-teal) !important;
+                border: 1px solid var(--primary-teal);
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 12px;
+                font-weight: 500;
+                transition: all 0.3s;
+            }
+
+            .view-on-map-link:hover {
+                background-color: var(--primary-teal);
+                color: white !important;
+                text-decoration: none;
+            }
         }
 
         .event-services {
@@ -1882,10 +1944,14 @@
                             <i class="fas fa-map-marker-alt"></i>
                             <div class="location-info">
                                 <p class="location-address">
-                                    <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}" target="_blank" style="color: var(--text-light); text-decoration: none;">
-                                        ${event.address}
+                                    <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}" target="_blank">
+                                        <i class="fas fa-directions"></i> ${event.address}
                                     </a>
-                                    <span style="color: var(--text-light); cursor: pointer;" class="view-on-map-link" data-lat="${event.lat}" data-lng="${event.lng}" data-name="${event.name}"> • View on map</span>
+                                </p>
+                                <p>
+                                    <span class="view-on-map-link" data-lat="${event.lat}" data-lng="${event.lng}" data-name="${event.name}">
+                                        <i class="fas fa-map"></i> View on map
+                                    </span>
                                 </p>
                             </div>
                         </div>
