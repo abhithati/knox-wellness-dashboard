@@ -1881,8 +1881,11 @@
                         <div class="event-location">
                             <i class="fas fa-map-marker-alt"></i>
                             <div class="location-info">
-                                <p class="location-address" data-lat="${event.lat}" data-lng="${event.lng}" data-name="${event.name}">
-                                    ${event.address} • View on map
+                                <p class="location-address">
+                                    <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}" target="_blank" style="color: var(--text-light); text-decoration: none;">
+                                        ${event.address}
+                                    </a>
+                                    <span style="color: var(--text-light); cursor: pointer;" class="view-on-map-link" data-lat="${event.lat}" data-lng="${event.lng}" data-name="${event.name}"> • View on map</span>
                                 </p>
                             </div>
                         </div>
@@ -1903,7 +1906,7 @@
             `;
             
             // Add click handlers for "View on map" links
-            todaysSection.querySelectorAll('.location-address').forEach(link => {
+            todaysSection.querySelectorAll('.view-on-map-link').forEach(link => {
                 link.onclick = function() {
                     const lat = parseFloat(this.dataset.lat);
                     const lng = parseFloat(this.dataset.lng);
