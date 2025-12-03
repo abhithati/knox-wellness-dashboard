@@ -951,26 +951,43 @@
             }
 
             .dashboard-layout {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
                 grid-template-areas: 
-                    "events"
-                    "calendar"
-                    "filters"
-                    "map";
-                gap: 20px;
+                    "calendar events"
+                    "filters filters"
+                    "map map";
+                gap: 15px;
             }
 
             .calendar-section {
                 min-height: auto;
+                padding: 15px;
             }
 
             .events-container {
                 height: auto;
+                gap: 8px;
+            }
+
+            .todays-event-section {
+                padding: 12px;
+            }
+
+            .upcoming-events-section {
+                padding: 15px;
             }
 
             .calendar-day {
-                font-size: 12px;
+                font-size: 11px;
                 padding: 2px;
+            }
+
+            .calendar-day-header {
+                font-size: 10px;
+            }
+
+            .calendar-month {
+                font-size: 14px;
             }
 
             .filter-select,
@@ -996,8 +1013,8 @@
             }
 
             .calendar-nav button {
-                font-size: 24px;
-                padding: 8px;
+                font-size: 20px;
+                padding: 5px;
             }
 
             .map-container {
@@ -1047,7 +1064,7 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
-                padding: 15px 0;
+                padding: 12px 0;
             }
 
             .event-location-info {
@@ -1066,19 +1083,48 @@
                 padding: 0;
             }
 
-            .todays-event-section {
-                padding: 15px;
-            }
-
             .event-details {
                 flex-direction: column;
-                gap: 15px;
+                gap: 12px;
             }
 
             .event-badge,
             .event-time {
                 display: block;
                 margin: 5px 0;
+            }
+
+            .upcoming-events-section h3 {
+                font-size: 16px;
+            }
+
+            .todays-event-section h3 {
+                font-size: 15px;
+            }
+
+            .event-location-title {
+                font-size: 14px;
+            }
+
+            .service-tag {
+                font-size: 10px;
+                padding: 3px 8px;
+            }
+
+            .event-date-label {
+                font-size: 13px;
+            }
+
+            .event-time-label {
+                font-size: 12px;
+            }
+
+            .event-location-name {
+                font-size: 13px;
+            }
+
+            .event-location-address {
+                font-size: 12px;
             }
         }
 
@@ -1089,6 +1135,16 @@
 
             .main-content {
                 padding: 15px;
+            }
+
+            .dashboard-layout {
+                grid-template-columns: 1fr;
+                grid-template-areas: 
+                    "calendar"
+                    "events"
+                    "filters"
+                    "map";
+                gap: 15px;
             }
 
             .calendar-section,
@@ -1120,6 +1176,18 @@
 
             .find-services-panel h3 {
                 font-size: 16px;
+            }
+
+            .calendar-day {
+                font-size: 12px;
+            }
+
+            .calendar-day-header {
+                font-size: 11px;
+            }
+
+            .calendar-month {
+                font-size: 15px;
             }
         }
     </style>
