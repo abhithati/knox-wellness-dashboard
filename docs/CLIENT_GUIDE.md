@@ -57,7 +57,7 @@ Record what happened at each stop.
 
 ---
 
-### 3. **Census Tract Data** Tab
+### 3. **Census Tract Data** Tab 
 ⚠️ **Don't edit this tab often** - it contains demographic data that changes annually.
 
 ---
