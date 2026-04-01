@@ -77,7 +77,7 @@
             gap: 35px;
             grid-template-areas: 
                 "calendar events"
-                "filters map";
+                "map map";
         }
 
         .left-sidebar {
@@ -203,7 +203,7 @@
             border: 2px solid var(--primary-teal);
         }
 
-        /* Find Services Panel */
+        /* Find Services Panel
         .find-services-panel {
             background-color: white;
             padding: 20px;
@@ -320,7 +320,7 @@
         .clear-filters-btn:hover {
             border-color: var(--primary-teal);
             color: var(--primary-teal);
-        }
+        } */
 
         /* Today's Event Section */
         .todays-event-section {
@@ -1050,7 +1050,7 @@
                 grid-template-columns: 1fr 1fr;
                 grid-template-areas: 
                     "calendar events"
-                    "filters filters"
+                    /* "filters filters" */
                     "map map";
                 gap: 15px;
             }
@@ -1086,10 +1086,10 @@
                 font-size: 14px;
             }
 
-            .filter-select,
+            /* .filter-select,
             .filter-input {
                 padding: 12px 35px 12px 14px;
-                font-size: 16px; /* Prevents zoom on iOS */
+                font-size: 16px;
             }
 
             .filter-input {
@@ -1099,8 +1099,8 @@
             .time-input input,
             .time-input select {
                 padding: 10px;
-                font-size: 16px; /* Prevents zoom on iOS */
-            }
+                font-size: 16px;
+            } */
 
             .pagination-btn {
                 width: 40px;
@@ -1238,13 +1238,13 @@
                 grid-template-areas: 
                     "calendar"
                     "events"
-                    "filters"
+                    /* "filters" */
                     "map";
                 gap: 15px;
             }
 
             .calendar-section,
-            .find-services-panel,
+            /* .find-services-panel, */
             .todays-event-section,
             .upcoming-events-section,
             .map-container {
@@ -1270,9 +1270,9 @@
                 font-size: 16px;
             }
 
-            .find-services-panel h3 {
+            /* .find-services-panel h3 {
                 font-size: 16px;
-            }
+            } */
 
             .calendar-day {
                 font-size: 12px;
@@ -1324,7 +1324,7 @@
                     </div>
 
                     <!-- Find Services Panel -->
-                    <div class="find-services-panel">
+                    <!-- <div class="find-services-panel">
                         <h3>Find Services</h3>
                         <p class="subtitle">Filter events by service type</p>
                         
@@ -1341,7 +1341,7 @@
                                 <option value="wellness">Wellness Coaching</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Right Content -->
@@ -1675,20 +1675,20 @@
             updateMapAndSchedule();
         }
 
-        function clearFilter() {
-            selectedDate = null;
-            filteredLocations = [...window.sampleVanLocations];
-            currentPage = 1; // Reset to first page
+        // function clearFilter() {
+        //     selectedDate = null;
+        //     filteredLocations = [...window.sampleVanLocations];
+        //     currentPage = 1; // Reset to first page
             
-            // Reset service filter dropdown to "All Services"
-            const serviceFilter = document.getElementById('serviceFilter');
-            if (serviceFilter) {
-                serviceFilter.value = 'all';
-            }
+        //     // Reset service filter dropdown to "All Services"
+        //     const serviceFilter = document.getElementById('serviceFilter');
+        //     if (serviceFilter) {
+        //         serviceFilter.value = 'all';
+        //     }
             
-            renderCalendar();
-            updateMapAndSchedule();
-        }
+        //     renderCalendar();
+        //     updateMapAndSchedule();
+        // }
 
         function updateMapAndSchedule() {
             // Dispatch event that your mapHandler can listen to
@@ -1841,22 +1841,22 @@
             document.getElementById('nextPage').addEventListener('click', () => goToPage('next'));
             
             // Service filter change handler
-            document.getElementById('serviceFilter').addEventListener('change', function(e) {
-                const selectedService = e.target.value;
+            // document.getElementById('serviceFilter').addEventListener('change', function(e) {
+            //     const selectedService = e.target.value;
                 
-                if (selectedService === 'all') {
-                    filteredLocations = [...window.sampleVanLocations];
-                } else {
-                    filteredLocations = window.sampleVanLocations.filter(loc => {
-                        return loc.services && loc.services.some(service => 
-                            service.toLowerCase().includes(selectedService.toLowerCase())
-                        );
-                    });
-                }
+            //     if (selectedService === 'all') {
+            //         filteredLocations = [...window.sampleVanLocations];
+            //     } else {
+            //         filteredLocations = window.sampleVanLocations.filter(loc => {
+            //             return loc.services && loc.services.some(service => 
+            //                 service.toLowerCase().includes(selectedService.toLowerCase())
+            //             );
+            //         });
+            //     }
                 
-                currentPage = 1; // Reset to first page
-                updateMapAndSchedule();
-            });
+            //     currentPage = 1; // Reset to first page
+            //     updateMapAndSchedule();
+            // });
             
             // Reset map button
             const resetBtn = document.getElementById('resetMapBtn');
