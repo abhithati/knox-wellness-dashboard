@@ -32,32 +32,219 @@
             background-color: var(--bg-light);
         }
 
-        /* Header Override */
-        .header {
-            background-color: white;
-            padding: 10px 50px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-            border-bottom: 1px solid #f0f0f0;
+        /* ===== Knox Clinic Header ===== */
+        .knox-header-wrapper {
             position: sticky;
             top: 0;
             z-index: 2000;
+            width: 100%;
         }
 
-        .header-content {
-            display: flex;
-            align-items: center;
+        .knox-container {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 0 30px;
         }
 
-        .logo {
+        /* Secondary / Top Bar */
+        .knox-secondary-header {
+            background-color: #00a9ac;
+            padding: 7px 0;
+        }
+
+        .knox-secondary-header .knox-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .knox-phone {
+            color: rgba(255,255,255,0.9);
+            font-size: 13px;
+        }
+
+        .knox-phone i {
+            margin-right: 5px;
+            font-size: 11px;
+        }
+
+        .knox-social-header {
+            display: flex;
+            gap: 14px;
+        }
+
+        .knox-social-header a {
+            color: rgba(255,255,255,0.85);
+            font-size: 13px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .knox-social-header a:hover {
+            color: #99CA3D;
+        }
+
+        /* Main Header */
+        .knox-main-header {
+            background-color: white;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+
+        .knox-header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+        }
+
+        .knox-logo a {
+            display: block;
+            line-height: 0;
+        }
+
+        .knox-logo img {
+            height: 65px;
+            width: auto;
+        }
+
+        /* Desktop Nav */
+        .knox-main-nav {
             display: flex;
             align-items: center;
         }
 
-        .logo img {
-            height: 65px;
-            width: auto;
+        .knox-menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .knox-menu > li {
+            position: relative;
+        }
+
+        .knox-menu > li > a {
+            display: block;
+            padding: 10px 14px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: color 0.2s;
+        }
+
+        .knox-menu > li > a:hover,
+        .knox-menu > li:hover > a {
+            color: #00a9ac;
+        }
+
+        .knox-menu > li > a .fa-caret-down {
+            font-size: 10px;
+            margin-left: 4px;
+            opacity: 0.6;
+        }
+
+        /* Donate Button in Nav */
+        .knox-donate-btn {
+            background-color: #99CA3D !important;
+            color: white !important;
+            padding: 7px 18px !important;
+            border-radius: 4px;
+            font-weight: 600 !important;
+            letter-spacing: 0.3px;
+            transition: background-color 0.2s !important;
+        }
+
+        .knox-donate-btn:hover {
+            background-color: #00a9ac !important;
+            color: white !important;
+        }
+
+        /* Dropdown Menus */
+        .dropdown {
+            list-style: none;
+            margin: 0;
+            padding: 8px 0;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 205px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+            border-top: 2px solid #00a9ac;
+            z-index: 9999;
+            display: none;
+        }
+
+        .has-dropdown:hover .dropdown {
+            display: block;
+        }
+
+        .dropdown li a {
+            display: block;
+            padding: 8px 20px;
+            color: #444;
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.15s;
+        }
+
+        .dropdown li a:hover {
+            background-color: #f5f5f5;
+            color: #00a9ac;
+            padding-left: 26px;
+        }
+
+        /* Mobile Toggle */
+        .knox-mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 22px;
+            color: #333;
+            padding: 6px 8px;
+            transition: color 0.2s;
+        }
+
+        .knox-mobile-toggle:hover {
+            color: #00a9ac;
+        }
+
+        /* Mobile Nav */
+        .knox-mobile-nav {
+            display: none;
+            background: white;
+            border-top: 1px solid #eee;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .knox-mobile-nav.open {
+            display: block;
+        }
+
+        .knox-mobile-menu {
+            list-style: none;
+            margin: 0;
+            padding: 8px 0;
+        }
+
+        .knox-mobile-menu li a {
+            display: block;
+            padding: 11px 30px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            border-bottom: 1px solid #f5f5f5;
+            transition: background 0.15s;
+        }
+
+        .knox-mobile-menu li a:hover {
+            background-color: #f5f5f5;
+            color: #00a9ac;
         }
 
         /* Main Content */
@@ -75,9 +262,9 @@
             display: grid;
             grid-template-columns: 380px 1fr;
             gap: 35px;
-            grid-template-areas: 
+            grid-template-areas:
                 "calendar events"
-                "filters map";
+                "map map";
         }
 
         .left-sidebar {
@@ -203,124 +390,6 @@
             border: 2px solid var(--primary-teal);
         }
 
-        /* Find Services Panel */
-        .find-services-panel {
-            background-color: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            width: 100%;
-            grid-area: filters;
-            align-self: start;
-        }
-
-        .find-services-panel .filter-group:last-of-type {
-            margin-bottom: 0;
-        }
-
-        .find-services-panel .clear-filters-btn {
-            margin-top: 8px;
-        }
-
-        .find-services-panel h3 {
-            color: var(--primary-teal);
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-
-        .find-services-panel .subtitle {
-            color: var(--text-light);
-            font-size: 13px;
-            margin-bottom: 0;
-        }
-
-        .filter-group {
-            margin-bottom: 0;
-        }
-
-        .filter-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-        }
-
-        .filter-select,
-        .filter-input {
-            width: 100%;
-            padding: 10px 35px 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: 'Roboto', sans-serif;
-            font-size: 14px;
-            color: var(--text-dark);
-            background-color: white;
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-        }
-        
-        .filter-input {
-            background-image: none;
-            padding: 10px 12px;
-        }
-
-        .time-inputs {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .time-input {
-            display: flex;
-            gap: 5px;
-        }
-
-        .time-input input {
-            width: 50px;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 13px;
-        }
-
-        .time-input select {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-
-        .clear-filters-btn {
-            width: 100%;
-            background-color: white;
-            color: var(--text-dark);
-            border: 1px solid #ddd;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .clear-filters-btn:hover {
-            border-color: var(--primary-teal);
-            color: var(--primary-teal);
-        }
 
         /* Today's Event Section */
         .todays-event-section {
@@ -331,16 +400,69 @@
             flex-shrink: 0;
         }
 
+        /* Header line: title + badges + nav */
+        .todays-header-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .todays-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         .todays-event-section h3 {
             color: var(--primary-teal);
             font-size: 18px;
             font-weight: 500;
-            margin-bottom: 8px;
-            display: inline-block;
+            margin: 0;
+        }
+
+        /* Green date badge */
+        .event-date-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--primary-green);
+            color: white;
+            padding: 4px 11px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        /* Outlined time badge */
+        .event-time-badge {
+            display: inline-flex;
+            align-items: center;
+            border: 1.5px solid var(--primary-teal);
+            color: var(--primary-teal);
+            padding: 3px 11px;
+            border-radius: 12px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        /* Description box in Today's Event */
+        .event-description-box {
+            background: rgba(255,255,255,0.65);
+            border: 1.5px dashed #bbb;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            max-width: 340px;
+            flex-shrink: 0;
         }
 
         .todays-event-nav {
-            float: right;
             display: flex;
             gap: 8px;
             align-items: center;
@@ -399,24 +521,6 @@
             font-size: 15px;
         }
 
-        .event-badge {
-            display: inline-block;
-            background-color: var(--primary-green);
-            color: white;
-            padding: 3px 10px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 500;
-        }
-
-        .event-time {
-            display: inline-block;
-            border: 1px solid var(--primary-green);
-            color: var(--primary-green);
-            padding: 3px 10px;
-            border-radius: 10px;
-            font-size: 11px;
-        }
 
         .event-details {
             display: flex;
@@ -634,8 +738,9 @@
             padding: 0 20px;
         }
 
-        .header-services {
-            min-width: 200px;
+        .header-address {
+            flex: 1;
+            padding: 0 20px;
         }
 
         .pagination-footer {
@@ -685,16 +790,78 @@
             text-align: center;
         }
 
+        /* Wrapper handles the border so description row is inside it */
+        .upcoming-event-wrapper {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .upcoming-event-wrapper:last-child {
+            border-bottom: none;
+        }
+
         .upcoming-event-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
         }
 
-        .upcoming-event-item:last-child {
-            border-bottom: none;
+        .upcoming-event-item.expandable {
+            cursor: pointer;
+        }
+
+        .upcoming-event-item.expanded {
+            background-color: #f0fafa;
+            border-radius: 6px 6px 0 0;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        /* Expandable description row */
+        .event-description-row {
+            display: none;
+            padding: 10px 16px 14px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            background-color: #f0fafa;
+            border-radius: 0 0 6px 6px;
+        }
+
+        .event-description-row.open {
+            display: block;
+        }
+
+        /* Address column in upcoming events */
+        .event-address-col {
+            flex: 1;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .event-address-link {
+            color: var(--text-dark);
+            text-decoration: underline;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .event-address-link:hover {
+            color: var(--primary-teal);
+        }
+
+        .expand-icon {
+            color: var(--text-light);
+            font-size: 11px;
+            margin-left: auto;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+
+        .upcoming-event-item.expanded .expand-icon {
+            transform: rotate(180deg);
         }
 
         .event-date-time {
@@ -729,10 +896,6 @@
             font-size: 13px;
         }
 
-        .event-item-services {
-            display: flex;
-            gap: 8px;
-        }
 
         .event-item-actions {
             display: none;
@@ -880,136 +1043,140 @@
             background: var(--primary-teal) !important;
         }
 
-        /* Footer Override */
-        .footer {
-            background-color: var(--light-green);
-            padding: 60px 50px 50px 50px;
+        /* ===== Knox Clinic Footer ===== */
+        .knox-footer {
+            background-color: #cfe699;
+            padding: 55px 0 45px;
             margin-top: 40px;
         }
 
-        .footer .container {
-            max-width: 1400px;
-            margin: 0 auto;
+        .knox-footer-columns {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 100px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
         }
 
-        .contact-section {
-            text-align: left;
-        }
-
-        .donate-section {
-            text-align: left;
-            margin-left: auto;
-            max-width: 400px;
-        }
-
-        .footer h3 {
-            font-size: 13px;
+        .knox-footer-col h4 {
+            color: #222;
+            font-size: 12px;
             font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 25px;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.15);
         }
 
-        .footer p {
-            color: var(--text-dark);
-            line-height: 1.6;
-            font-size: 14px;
-            margin-bottom: 4px;
+        .knox-footer-col p {
+            color: #444;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 3px;
         }
 
-        .donate-btn {
+        .knox-footer-col p strong {
+            color: #222;
+        }
+
+        .knox-footer-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .knox-footer-links li {
+            margin-bottom: 7px;
+        }
+
+        .knox-footer-links a {
+            color: #444;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .knox-footer-links a:hover {
+            color: #00a9ac;
+        }
+
+        .knox-footer-donate-btn {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            background-color: var(--primary-green);
-            color: white !important;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 40px;
-            transition: background-color 0.3s;
-            text-decoration: none !important;
-            position: relative;
-        }
-
-        .donate-btn i {
-            font-size: 16px;
-            color: white !important;
-        }
-
-        .donate-btn:hover {
-            background-color: var(--primary-teal);
-            color: white !important;
-            text-decoration: none !important;
-        }
-
-        .donate-btn:hover::after {
-            content: 'Click to Donate!';
-            position: absolute;
-            bottom: -45px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #666;
+            gap: 10px;
+            background-color: #99CA3D;
             color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 13px;
-            white-space: nowrap;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-icon {
-            width: 35px;
-            height: 35px;
-            background-color: transparent;
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white !important;
-            font-size: 22px;
-            cursor: pointer;
-            transition: all 0.3s;
             text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 28px;
+            transition: background-color 0.2s;
         }
 
-        .social-icon i {
-            color: white !important;
-        }
-
-        .social-icon:hover {
-            opacity: 0.7;
-            transform: translateY(-2px);
-        }
-
-        .copyright-bar {
-            background-color: var(--primary-teal);
+        .knox-footer-donate-btn:hover {
+            background-color: #00a9ac;
             color: white;
-            padding: 20px 50px;
-            font-size: 13px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        .copyright-left {
+        .knox-footer-social .knox-footer-col-social-h4 {
+            margin-top: 0;
+        }
+
+        .knox-social-box {
+            margin-top: 5px;
+            background: none;
+            border: none;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        .knox-social-icons {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
-            text-align: center;
+            gap: 16px;
+            margin-top: 6px;
+        }
+
+        .knox-social-icons a {
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .knox-social-icons a:hover {
+            opacity: 0.7;
+        }
+
+        /* Copyright Bar */
+        .knox-copyright-bar {
+            background-color: #00a9ac;
+            color: white;
+            padding: 14px 0;
+            font-size: 13px;
+        }
+
+        .knox-copyright-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .knox-social-footer {
+            display: flex;
+            gap: 14px;
+        }
+
+        .knox-social-footer a {
+            color: rgba(255,255,255,0.9);
+            font-size: 13px;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .knox-social-footer a:hover {
+            opacity: 0.7;
         }
 
         .developed-by {
@@ -1020,11 +1187,9 @@
         .developed-by a {
             color: white;
             text-decoration: none;
-            transition: opacity 0.3s;
         }
 
         .developed-by a:hover {
-            opacity: 0.7;
             text-decoration: underline;
         }
 
@@ -1034,12 +1199,35 @@
 
         /* Responsive Design */
         @media (max-width: 968px) {
-            .header {
-                padding: 15px 20px;
+            .knox-main-nav {
+                display: none;
             }
 
-            .logo img {
-                height: 80px;
+            .knox-mobile-toggle {
+                display: block;
+            }
+
+            .knox-logo img {
+                height: 55px;
+            }
+
+            .knox-container {
+                padding: 0 20px;
+            }
+
+            .knox-footer-columns {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+
+            .knox-footer-col-empty {
+                display: none;
+            }
+
+            .knox-copyright-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
             }
 
             .main-content {
@@ -1050,7 +1238,6 @@
                 grid-template-columns: 1fr 1fr;
                 grid-template-areas: 
                     "calendar events"
-                    "filters filters"
                     "map map";
                 gap: 15px;
             }
@@ -1139,27 +1326,14 @@
                 padding: 12px 20px;
             }
 
-            .footer .container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .footer {
-                padding: 40px 20px 40px 20px;
-            }
-
-            .donate-section {
-                margin-left: 0;
-            }
-
-            .copyright-bar {
-                padding: 20px;
+            .knox-footer {
+                padding: 40px 0;
             }
 
             .upcoming-event-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: 6px;
                 padding: 12px 0;
             }
 
@@ -1167,14 +1341,18 @@
                 padding: 0;
             }
 
+            .event-address-col {
+                padding: 0;
+            }
+
             .event-date-time {
                 min-width: auto;
             }
-            
+
             .events-column-headers {
                 display: none;
             }
-            
+
             .header-location {
                 padding: 0;
             }
@@ -1184,10 +1362,13 @@
                 gap: 12px;
             }
 
-            .event-badge,
-            .event-time {
-                display: block;
-                margin: 5px 0;
+            .event-description-box {
+                max-width: 100%;
+            }
+
+            .todays-header-line {
+                flex-wrap: wrap;
+                gap: 8px;
             }
 
             .upcoming-events-section h3 {
@@ -1225,8 +1406,12 @@
         }
 
         @media (max-width: 480px) {
-            .logo img {
-                height: 70px;
+            .knox-logo img {
+                height: 50px;
+            }
+
+            .knox-footer-columns {
+                grid-template-columns: 1fr;
             }
 
             .main-content {
@@ -1235,16 +1420,14 @@
 
             .dashboard-layout {
                 grid-template-columns: 1fr;
-                grid-template-areas: 
+                grid-template-areas:
                     "calendar"
                     "events"
-                    "filters"
                     "map";
                 gap: 15px;
             }
 
             .calendar-section,
-            .find-services-panel,
             .todays-event-section,
             .upcoming-events-section,
             .map-container {
@@ -1270,9 +1453,6 @@
                 font-size: 16px;
             }
 
-            .find-services-panel h3 {
-                font-size: 16px;
-            }
 
             .calendar-day {
                 font-size: 12px;
@@ -1293,13 +1473,90 @@
 </head>
 <body>
     <!-- Knox Clinic Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <img src="./public/assets/png/knox_logo.png" alt="Knox Clinic Logo">
+    <header class="knox-header-wrapper">
+        <!-- Secondary Top Bar -->
+        <div class="knox-secondary-header">
+            <div class="knox-container">
+                <span class="knox-phone"><i class="fas fa-phone"></i> Phone: (207) 680-4545</span>
+                <div class="knox-social-header">
+                    <a href="https://www.facebook.com/Knox-County-Health-Clinic" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/knoxclinic/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/knox-clinic/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.tiktok.com/@knoxclinic" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
+        </div>
+
+        <!-- Main Header -->
+        <div class="knox-main-header">
+            <div class="knox-container">
+                <div class="knox-header-inner">
+                    <!-- Logo -->
+                    <div class="knox-logo">
+                        <a href="https://knoxclinic.org/">
+                            <img src="./public/assets/png/knox_logo.png" alt="Knox Clinic Logo">
+                        </a>
+                    </div>
+
+                    <!-- Desktop Navigation -->
+                    <nav class="knox-main-nav" aria-label="Main Menu">
+                        <ul class="knox-menu">
+                            <li class="menu-item has-dropdown">
+                                <a href="https://knoxclinic.org/about-us/">About Us <i class="fas fa-caret-down"></i></a>
+                                <ul class="dropdown">
+                                    <li><a href="https://knoxclinic.org/about-us/your-mid-coast-health-net/">Services</a></li>
+                                    <li><a href="https://knoxclinic.org/about-us/">Our Story</a></li>
+                                    <li><a href="https://knoxclinic.org/about-us/our-team/">Our Team</a></li>
+                                    <li><a href="https://knoxclinic.org/employment-opportunities/">Careers</a></li>
+                                    <li><a href="https://knoxclinic.org/about-us/mobile-medical-van/">Mobile Medical Van</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item has-dropdown">
+                                <a href="https://knoxclinic.org/patient-resources-2/">Patient Resources <i class="fas fa-caret-down"></i></a>
+                                <ul class="dropdown">
+                                    <li><a href="https://knoxclinic.org/patient-resources-2/">Patient Forms</a></li>
+                                    <li><a href="https://knoxclinic.org/patient-resources-2/athena/">Patient Portal</a></li>
+                                    <li><a href="https://knoxclinic.org/patient-resources-2/community-partners/">Community Partners</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item">
+                                <a href="https://knoxclinic.org/make-a-difference/" class="knox-donate-btn">DONATE</a>
+                            </li>
+                            <li class="menu-item has-dropdown">
+                                <a href="https://knoxclinic.org/stay-in-the-loop/">Stay In The Loop <i class="fas fa-caret-down"></i></a>
+                                <ul class="dropdown">
+                                    <li><a href="https://knoxclinic.org/stay-in-the-loop/news/">News &amp; What's New</a></li>
+                                    <li><a href="https://knoxclinic.org/stay-in-the-loop/calendar/">Events Calendar</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item">
+                                <a href="https://knoxclinic.org/contact-us/">Contact</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <!-- Mobile Toggle -->
+                    <button class="knox-mobile-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="knox-mobile-nav" id="mobileNav">
+            <ul class="knox-mobile-menu">
+                <li><a href="https://knoxclinic.org/">Home</a></li>
+                <li><a href="https://knoxclinic.org/about-us/your-mid-coast-health-net/">Services</a></li>
+                <li><a href="https://knoxclinic.org/patient-resources-2/">Patient Resources</a></li>
+                <li><a href="https://knoxclinic.org/about-us/">About Us</a></li>
+                <li><a href="https://knoxclinic.org/employment-opportunities/">Careers</a></li>
+                <li><a href="https://knoxclinic.org/about-us/mobile-medical-van/">Mobile Medical Van</a></li>
+                <li><a href="https://knoxclinic.org/make-a-difference/">Donate Today</a></li>
+                <li><a href="https://knoxclinic.org/stay-in-the-loop/news/">News &amp; What's New</a></li>
+                <li><a href="https://knoxclinic.org/stay-in-the-loop/calendar/">Events Calendar</a></li>
+                <li><a href="https://knoxclinic.org/contact-us/">Contact Us</a></li>
+            </ul>
         </div>
     </header>
 
@@ -1323,25 +1580,7 @@
                         </div>
                     </div>
 
-                    <!-- Find Services Panel -->
-                    <div class="find-services-panel">
-                        <h3>Find Services</h3>
-                        <p class="subtitle">Filter events by service type</p>
-                        
-                        <div class="filter-group">
-                            <label>Service Type</label>
-                            <select id="serviceFilter" class="filter-select">
-                                <option value="all">All Services</option>
-                                <option value="health">Health Screening</option>
-                                <option value="dental">Dental</option>
-                                <option value="mental">Mental Health</option>
-                                <option value="flu">Flu Shot</option>
-                                <option value="pcp">PCP Registration</option>
-                                <option value="vision">Vision</option>
-                                <option value="wellness">Wellness Coaching</option>
-                            </select>
-                        </div>
-                    </div>
+                    <!-- Find Services Panel (removed) -->
                 </div>
 
                 <!-- Right Content -->
@@ -1366,8 +1605,8 @@
                         
                         <div class="events-column-headers">
                             <div class="header-date">Date & Time</div>
-                            <div class="header-location">Location</div>
-                            <div class="header-services">Services</div>
+                            <div class="header-location">Event</div>
+                            <div class="header-address">Location</div>
                         </div>
                         
                         <div id="upcomingEventsList">
@@ -1394,52 +1633,88 @@
     </main>
 
     <!-- Knox Clinic Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="contact-section">
-                <h3>Contact Us</h3>
-                <p style="font-weight: 500;">Mid Coast Health Net</p>
-                <p>d.b.a. The Knox Clinic</p>
-                <p style="margin-top: 18px;">22 White Street</p>
-                <p>Rockland, ME 04841</p>
-                <p style="margin-top: 18px;">Phone: (207) 680-4545</p>
-                <p>Fax: (207) 680-4544</p>
-            </div>
-            <div class="donate-section">
-                <h3>Donate</h3>
-                <a href="https://knoxclinic.org/make-a-difference/" class="donate-btn" target="_blank">
-                    <i class="fas fa-credit-card"></i>
-                    Please Donate Today!
-                </a>
-                
-                <h3>Follow Us</h3>
-                <div class="social-links">
-                    <a href="https://www.facebook.com/KnoxCountyHealthClinic/" class="social-icon" aria-label="Facebook" target="_blank">
-                        <i class="fab fa-facebook-f"></i>
+    <footer class="knox-footer">
+        <div class="knox-container">
+            <div class="knox-footer-columns">
+                <!-- Contact Us -->
+                <div class="knox-footer-col">
+                    <h4>Contact Us</h4>
+                    <p><strong>Mid Coast Health Net</strong></p>
+                    <p>d.b.a. The Knox Clinic</p>
+                    <p>&nbsp;</p>
+                    <p>22 White Street</p>
+                    <p>Rockland, ME 04841</p>
+                    <p>&nbsp;</p>
+                    <p>Phone: (207) 680-4545</p>
+                    <p>Fax: (207) 680-4544</p>
+                </div>
+
+                <!-- Site Map -->
+                <div class="knox-footer-col">
+                    <h4>Site Map</h4>
+                    <ul class="knox-footer-links">
+                        <li><a href="https://knoxclinic.org/">Home</a></li>
+                        <li><a href="https://knoxclinic.org/about-us/">About Us</a></li>
+                        <li><a href="https://knoxclinic.org/about-us/your-mid-coast-health-net/">Services</a></li>
+                        <li><a href="https://knoxclinic.org/make-a-difference/">Donate</a></li>
+                        <li><a href="https://knoxclinic.org/employment-opportunities/">Careers</a></li>
+                        <li><a href="https://knoxclinic.org/stay-in-the-loop/news/">News</a></li>
+                        <li><a href="https://knoxclinic.org/stay-in-the-loop/calendar/">Events Calendar</a></li>
+                        <li><a href="https://knoxclinic.org/contact-us/">Contact Us</a></li>
+                        <li><a href="https://knoxclinic.org/staff-portal/">Staff Portal</a></li>
+                    </ul>
+                </div>
+
+                <!-- Empty column (matches original layout) -->
+                <div class="knox-footer-col knox-footer-col-empty"></div>
+
+                <!-- Donate + Follow Us -->
+                <div class="knox-footer-col">
+                    <h4>Donate</h4>
+                    <a href="https://knoxclinic.org/make-a-difference/" class="knox-footer-donate-btn" target="_blank">
+                        <i class="fas fa-credit-card"></i> Please Donate Today!
                     </a>
-                    <a href="https://www.instagram.com/knoxclinic/" class="social-icon" aria-label="Instagram" target="_blank">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/company/knox-clinic/" class="social-icon" aria-label="LinkedIn" target="_blank">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="https://www.tiktok.com/@knoxclinic" class="social-icon" aria-label="TikTok" target="_blank">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
+                    <div class="knox-social-box">
+                        <h4>Follow Us</h4>
+                        <div class="knox-social-icons">
+                            <a href="https://www.facebook.com/Knox-County-Health-Clinic" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/knoxclinic/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/company/knox-clinic/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.tiktok.com/@knoxclinic" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
-    
+
     <!-- Copyright Bar -->
-    <div class="copyright-bar">
-        <div class="copyright-left">
-            <span>Copyright Knox Clinic</span>
-            <div class="developed-by">
-                Developed by <a href="https://scout.camd.northeastern.edu/" target="_blank">Scout</a>
+    <div class="knox-copyright-bar">
+        <div class="knox-container">
+            <div class="knox-copyright-content">
+                <span>Copyright Knox Clinic</span>
+                <div class="knox-social-footer">
+                    <a href="https://www.facebook.com/Knox-County-Health-Clinic" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/knoxclinic/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/knox-clinic/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.tiktok.com/@knoxclinic" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+                <div class="developed-by">
+                    Developed by <a href="https://scout.camd.northeastern.edu/" target="_blank">Scout</a>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Mobile Menu Toggle -->
+    <script>
+        document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+            const nav = document.getElementById('mobileNav');
+            const icon = this.querySelector('i');
+            nav.classList.toggle('open');
+            icon.className = nav.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+        });
+    </script>
 
     <!-- Leaflet JS for mapping -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -1524,16 +1799,18 @@
                 renderCalendar();
                 loadSchedule();
                 
-                // Update location filter dropdown
+                // Update location filter dropdown (if present)
                 const locationFilter = document.getElementById('locationFilter');
-                locationFilter.innerHTML = '<option value="all">All Locations</option>';
-                const uniqueLocations = [...new Set(window.sampleVanLocations.map(loc => loc.name))];
-                uniqueLocations.forEach(location => {
-                    const option = document.createElement('option');
-                    option.value = location;
-                    option.textContent = location;
-                    locationFilter.appendChild(option);
-                });
+                if (locationFilter) {
+                    locationFilter.innerHTML = '<option value="all">All Locations</option>';
+                    const uniqueLocations = [...new Set(window.sampleVanLocations.map(loc => loc.name))];
+                    uniqueLocations.forEach(location => {
+                        const option = document.createElement('option');
+                        option.value = location;
+                        option.textContent = location;
+                        locationFilter.appendChild(option);
+                    });
+                }
                 
                 // Notify map to update
                 window.dispatchEvent(new CustomEvent('locationsLoaded', {
@@ -1926,21 +2203,27 @@
             const paginatedEvents = upcomingEvents.slice(startIndex, endIndex);
             
             // Render events
-            upcomingList.innerHTML = paginatedEvents.map(item => `
-                <div class="upcoming-event-item">
-                    <div class="event-date-time">
-                        <div class="event-date-label">${formatShortDate(item.date)}</div>
-                        <div class="event-time-label">${item.time}</div>
+            upcomingList.innerHTML = paginatedEvents.map(item => {
+                const hasDesc = item.notes && item.notes.trim();
+                const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.address)}`;
+                return `
+                <div class="upcoming-event-wrapper">
+                    <div class="upcoming-event-item ${hasDesc ? 'expandable' : ''}" ${hasDesc ? `onclick="toggleEventDescription(this)"` : ''}>
+                        <div class="event-date-time">
+                            <div class="event-date-label">${formatShortDate(item.date)}</div>
+                            <div class="event-time-label">${item.time}</div>
+                        </div>
+                        <div class="event-location-info">
+                            <div class="event-location-name">${item.name}</div>
+                        </div>
+                        <div class="event-address-col">
+                            <a class="event-address-link" href="${mapsUrl}" target="_blank" onclick="event.stopPropagation()">${item.address}</a>
+                            ${hasDesc ? `<span class="expand-icon"><i class="fas fa-chevron-down"></i></span>` : ''}
+                        </div>
                     </div>
-                    <div class="event-location-info">
-                        <div class="event-location-name">${item.name}</div>
-                        <div class="event-location-address">${item.address}</div>
-                    </div>
-                    <div class="event-item-services">
-                        ${item.services.map(service => `<span class="service-tag">${service}</span>`).join('')}
-                    </div>
-                </div>
-            `).join('');
+                    ${hasDesc ? `<div class="event-description-row">${item.notes}</div>` : ''}
+                </div>`;
+            }).join('');
             
             // Update pagination controls
             updatePaginationControls(currentPage, totalPages);
@@ -1966,12 +2249,14 @@
                 </div>
             ` : '';
             
+            // Pick current event for badges in header
+            const currentEvent = todayEventsData[currentTodayEventIndex];
+
             // Create HTML for all today's events
             const eventsHTML = todayEventsData.map((event, index) => `
                 <div class="todays-event-item ${index === currentTodayEventIndex ? 'active' : ''}" data-index="${index}">
                     <div class="event-header-row">
                         <span class="event-location-title">${event.name}</span>
-                        <span class="event-time">${event.time}</span>
                     </div>
                     <div class="event-details">
                         <div class="event-location">
@@ -1987,18 +2272,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="event-services">
-                            ${event.services.map(service => `<span class="service-tag">${service}</span>`).join('')}
-                        </div>
+                        ${event.notes ? `<div class="event-description-box">${event.notes}</div>` : ''}
                     </div>
                 </div>
             `).join('');
-            
+
             todaysSection.innerHTML = `
-                <div style="margin-bottom: 10px;">
-                    <h3>${headerText}</h3>
+                <div class="todays-header-line">
+                    <div class="todays-header-left">
+                        <h3>${headerText}</h3>
+                        <span class="event-date-badge" id="todayDateBadge">${formatEventDateBadge(currentEvent.date)}</span>
+                        <span class="event-time-badge" id="todayTimeBadge">${currentEvent.time}</span>
+                    </div>
                     ${navHTML}
-                    <div style="clear: both;"></div>
                 </div>
                 ${eventsHTML}
             `;
@@ -2043,19 +2329,37 @@
             } else if (direction === 'prev' && currentTodayEventIndex > 0) {
                 currentTodayEventIndex--;
             }
-            
+
             // Update which event is visible
             document.querySelectorAll('.todays-event-item').forEach((item, index) => {
-                if (index === currentTodayEventIndex) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
+                item.classList.toggle('active', index === currentTodayEventIndex);
             });
-            
+
+            // Update header badges to reflect current event
+            const cur = todayEventsData[currentTodayEventIndex];
+            const dateBadge = document.getElementById('todayDateBadge');
+            const timeBadge = document.getElementById('todayTimeBadge');
+            if (dateBadge) dateBadge.textContent = formatEventDateBadge(cur.date);
+            if (timeBadge) timeBadge.textContent = cur.time;
+
             // Update counter and buttons
             document.getElementById('todayEventCounter').textContent = `${currentTodayEventIndex + 1} / ${todayEventsData.length}`;
             updateTodayEventNavButtons();
+        }
+
+        function formatEventDateBadge(dateStr) {
+            const d = new Date(dateStr + 'T00:00:00');
+            const month = d.toLocaleDateString('en-US', { month: 'short' });
+            return `${month} ${d.getDate()}`;
+        }
+
+        function toggleEventDescription(row) {
+            const wrapper = row.closest('.upcoming-event-wrapper');
+            if (!wrapper) return;
+            const descRow = wrapper.querySelector('.event-description-row');
+            if (!descRow) return;
+            const expanded = row.classList.toggle('expanded');
+            descRow.classList.toggle('open', expanded);
         }
         
         function updateTodayEventNavButtons() {

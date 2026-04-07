@@ -214,9 +214,11 @@
         const processed = [];
 
         for (const row of data) {
+            const timeFrom = row['Time From'] || row['time_from'] || '';
+            const timeTo   = row['Time To']   || row['time_to']   || '';
             const item = {
                 date: row.Date || row.date,
-                time: row.Time || row.time,
+                time: timeFrom && timeTo ? `${timeFrom} - ${timeTo}` : (row.Time || row.time || ''),
                 location: row.Location || row.location,
                 address: row.Address || row.address,
                 services: this.parseServices(row.Services || row.services),
