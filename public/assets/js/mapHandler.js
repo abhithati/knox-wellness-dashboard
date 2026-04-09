@@ -29,8 +29,9 @@ class MapHandler {
             maxZoom: 19
         }).addTo(this.map);
         
-        // Make map globally accessible
+        // Make map and handler globally accessible
         window.map = this.map;
+        window.mapHandler = this;
         
         // Setup listener for "View on map" clicks
         this.setupPopupListener();
@@ -89,7 +90,7 @@ class MapHandler {
         });
 
         // Create one marker per location, using the soonest upcoming/current event
-        locationGroups.forEach((stops, locationKey) => {
+        locationGroups.forEach((stops) => {
             // Sort by date
             const sortedStops = stops.sort((a, b) => 
                 new Date(a.date + 'T00:00:00') - new Date(b.date + 'T00:00:00')
@@ -105,28 +106,19 @@ class MapHandler {
             const stopDate = new Date(upcomingStop.date + 'T00:00:00');
             stopDate.setHours(0, 0, 0, 0);
 
-            // Determine marker color based on date
-            let markerColor;
+            // Determine marker status based on date
             let markerStatus;
-            
-            console.log('Comparing dates:', stopDate.getTime(), 'vs', today.getTime(), 'for', upcomingStop.name || upcomingStop.location);
-            
+
             if (stopDate.getTime() === today.getTime()) {
-                markerColor = CONFIG.COLORS.currentStop;
                 markerStatus = 'Today';
-                console.log('✓ Marker is TODAY - should be green:', markerColor);
             } else if (stopDate > today) {
-                markerColor = CONFIG.COLORS.upcomingStop;
                 markerStatus = 'Upcoming';
-                console.log('→ Marker is UPCOMING - should be teal:', markerColor);
             } else {
-                markerColor = CONFIG.COLORS.pastStop;
-                markerStatus = 'Past';
-                console.log('← Marker is PAST - should be gray:', markerColor);
+                return; // Skip past stops — not shown on map
             }
 
             // Create custom icon
-            const icon = this.createMarkerIcon(markerColor);
+            const icon = this.createMarkerIcon(markerStatus);
 
             // Create marker
             const marker = L.marker([upcomingStop.lat, upcomingStop.lng], { icon: icon });
@@ -149,37 +141,46 @@ class MapHandler {
 
     /**
      * Create custom marker icon
-     * @param {string} color - Hex color code
+     * @param {string} status - 'Today', 'Upcoming', or 'Past'
      * @returns {L.Icon}
      */
-    createMarkerIcon(color) {
+    createMarkerIcon(status) {
+        const basePath = './public/assets/png/';
+
+        if (status === 'Today') {
+            return L.divIcon({
+                html: `<img src="${basePath}IMG_3760.png" style="width:auto;height:72px;filter:drop-shadow(0 0 4px white) drop-shadow(0 3px 8px rgba(0,0,0,0.55));">`,
+                className: '',
+                iconSize: [72, 72],
+                iconAnchor: [36, 72],
+                popupAnchor: [0, -74]
+            });
+        }
+        if (status === 'Upcoming') {
+            return L.divIcon({
+                html: `<img src="${basePath}IMG_7754.png" style="width:auto;height:72px;filter:drop-shadow(0 0 4px white) drop-shadow(0 3px 8px rgba(0,0,0,0.55));">`,
+                className: '',
+                iconSize: [72, 72],
+                iconAnchor: [36, 72],
+                popupAnchor: [0, -74]
+            });
+        }
+        // Past: simple gray pin
         return L.divIcon({
-            html: `
-                <div style="
-                    background-color: ${color};
-                    width: 30px;
-                    height: 30px;
-                    border-radius: 50% 50% 50% 0;
-                    border: 3px solid white;
-                    transform: rotate(-45deg);
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-                ">
-                    <div style="
-                        width: 100%;
-                        height: 100%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        transform: rotate(45deg);
-                        color: white;
-                        font-size: 16px;
-                    ">🚐</div>
-                </div>
-            `,
+            html: `<div style="
+                background-color: #999;
+                width: 26px;
+                height: 26px;
+                border-radius: 50% 50% 50% 0;
+                border: 2px solid white;
+                transform: rotate(-45deg);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                opacity: 0.6;
+            "></div>`,
             className: 'custom-marker',
-            iconSize: [30, 30],
-            iconAnchor: [15, 30],
-            popupAnchor: [0, -30]
+            iconSize: [26, 26],
+            iconAnchor: [13, 26],
+            popupAnchor: [0, -26]
         });
     }
 
@@ -305,7 +306,7 @@ class MapHandler {
      * @param {string} status
      * @returns {string} - Color code
      */
-    getStatusColor(status) {
+    getStatusColor() {
         return '#00AAAC'; // Knox Clinic teal for all statuses
     }
 
@@ -427,6 +428,7 @@ class MapHandler {
         }
     }
 
+    /**
     /**
      * Clear all markers from map
      */

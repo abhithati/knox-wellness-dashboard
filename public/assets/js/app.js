@@ -151,8 +151,8 @@ class DashboardApp {
         // Filter schedule based on current filters
         const filtered = this.filterSchedule(this.currentSchedule);
 
-        // Update map markers
-        this.mapHandler.addScheduleMarkers(filtered);
+        // Map always gets all data — it handles past/today/upcoming coloring itself
+        this.mapHandler.addScheduleMarkers(this.currentSchedule);
 
         // Update schedule list
         this.renderScheduleList(filtered);

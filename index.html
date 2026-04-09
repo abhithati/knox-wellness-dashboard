@@ -257,44 +257,38 @@
             margin: 0 auto;
         }
 
-        /* Two Column Layout */
+        /* Dashboard: top row + map below */
         .dashboard-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .top-row {
             display: grid;
             grid-template-columns: 380px 1fr;
             gap: 35px;
-            grid-template-areas:
-                "calendar events"
-                "map map";
+            align-items: stretch;
         }
 
-        .left-sidebar {
-            display: contents;
+        .left-sidebar,
+        .calendar-section {
+            height: 100%;
+            box-sizing: border-box;
         }
 
-        .right-content {
-            display: contents;
-        }
-
-        /* Calendar Section */
         .calendar-section {
             background-color: white;
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            height: fit-content;
-            min-height: 420px;
-            grid-area: calendar;
-            align-self: start;
         }
 
-        /* Events container to match calendar height */
+        /* Events container — height is auto so Today's Event can grow freely */
         .events-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            grid-area: events;
-            align-self: start;
-            height: 420px;
+            gap: 12px;
         }
 
         .calendar-header {
@@ -386,6 +380,12 @@
             color: #ccc;
         }
 
+        .calendar-day.disabled {
+            color: #ccc;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         .calendar-day.today {
             border: 2px solid var(--primary-teal);
         }
@@ -394,10 +394,8 @@
         /* Today's Event Section */
         .todays-event-section {
             background-color: #e6f7f7;
-            padding: 15px 20px;
+            padding: 16px 24px 18px;
             border-radius: 12px;
-            position: relative;
-            flex-shrink: 0;
         }
 
         /* Header line: title + badges + nav */
@@ -413,14 +411,26 @@
         .todays-header-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+        }
+
+        .todays-header-text {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .todays-header-badges {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .todays-event-section h3 {
             color: var(--primary-teal);
-            font-size: 18px;
-            font-weight: 500;
+            font-size: 24px;
+            font-weight: 600;
             margin: 0;
         }
 
@@ -449,17 +459,16 @@
             white-space: nowrap;
         }
 
-        /* Description box in Today's Event */
         .event-description-box {
-            background: rgba(255,255,255,0.65);
-            border: 1.5px dashed #bbb;
-            border-radius: 8px;
-            padding: 12px 15px;
+            background: white;
+            border-left: 3px solid var(--primary-teal);
+            border-radius: 0 6px 6px 0;
+            padding: 10px 14px;
             font-size: 13px;
-            color: #555;
-            line-height: 1.6;
-            max-width: 340px;
-            flex-shrink: 0;
+            color: #444;
+            line-height: 1.65;
+            flex: 1;
+            box-sizing: border-box;
         }
 
         .todays-event-nav {
@@ -509,28 +518,28 @@
         }
 
         .event-header-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .event-location-title {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-dark);
-            font-size: 15px;
+            font-size: 17px;
+            display: block;
         }
 
 
+        /* Location left, description right */
         .event-details {
             display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-top: 10px;
-            gap: 15px;
+            flex-direction: row;
+            gap: 24px;
+            align-items: center;
+            margin-top: 8px;
         }
 
         .event-location {
+            flex: 0 0 auto;
             display: flex;
             align-items: start;
             gap: 8px;
@@ -676,28 +685,16 @@
         /* Upcoming Events Section */
         .upcoming-events-section {
             background-color: white;
-            padding: 20px 25px 30px 25px;
+            padding: 20px 25px 25px 25px;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
-            flex: 1;
-            min-height: 0;
-            overflow: hidden;
         }
 
         .upcoming-events-section #upcomingEventsList {
-            flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            padding-bottom: 10px;
-        }
-
-        /* When Today's Event is hidden, Upcoming Events takes full calendar height */
-        .todays-event-section[style*="display: none"] ~ .upcoming-events-section {
-            height: 420px;
-            padding: 20px 25px 30px 25px;
         }
 
         .upcoming-events-header {
@@ -707,6 +704,12 @@
             margin-bottom: 12px;
             padding-bottom: 10px;
             border-bottom: 2px solid #e0e0e0;
+        }
+
+        .upcoming-events-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .upcoming-events-section h3 {
@@ -933,7 +936,6 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            grid-area: map;
         }
 
         .map-wrapper {
@@ -998,9 +1000,16 @@
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
+            justify-content: flex-start;
+            gap: 12px;
+            margin-bottom: 10px;
             font-size: 13px;
+        }
+
+        .legend-icon {
+            width: 36px;
+            height: 44px;
+            object-fit: contain;
         }
 
         .legend-marker {
@@ -1009,6 +1018,14 @@
             border-radius: 50%;
             border: 2px solid white;
             box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        }
+
+        .section-header-icon {
+            height: 55px;
+            width: auto;
+            vertical-align: middle;
+            margin-right: 10px;
+            margin-bottom: 4px;
         }
 
         .legend-marker.current {
@@ -1235,10 +1252,11 @@
             }
 
             .dashboard-layout {
+                gap: 15px;
+            }
+
+            .top-row {
                 grid-template-columns: 1fr 1fr;
-                grid-template-areas: 
-                    "calendar events"
-                    "map map";
                 gap: 15px;
             }
 
@@ -1358,12 +1376,7 @@
             }
 
             .event-details {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .event-description-box {
-                max-width: 100%;
+                gap: 10px;
             }
 
             .todays-header-line {
@@ -1418,12 +1431,8 @@
                 padding: 15px;
             }
 
-            .dashboard-layout {
+            .top-row {
                 grid-template-columns: 1fr;
-                grid-template-areas:
-                    "calendar"
-                    "events"
-                    "map";
                 gap: 15px;
             }
 
@@ -1564,68 +1573,77 @@
     <main class="main-content">
         <div class="container">
             <div class="dashboard-layout">
-                <!-- Left Sidebar -->
-                <div class="left-sidebar">
-                    <!-- Calendar -->
-                    <div class="calendar-section">
-                        <div class="calendar-header">
-                            <span class="calendar-month" id="currentMonth"></span>
-                            <div class="calendar-nav">
-                                <button id="prevMonth">‹</button>
-                                <button id="nextMonth">›</button>
-                            </div>
-                        </div>
-                        <div class="calendar-grid" id="calendarGrid">
-                            <!-- Calendar will be generated here -->
-                        </div>
-                    </div>
-
-                    <!-- Find Services Panel (removed) -->
+                <!-- Today's Event: full width, centered above calendar + upcoming -->
+                <div class="todays-event-section" id="todaysEventSection" style="display:none">
+                    <!-- Dynamically generated -->
                 </div>
 
-                <!-- Right Content -->
-                <div class="right-content">
-                    <!-- Events Container -->
-                    <div class="events-container">
-                        <!-- Today's Event -->
-                        <div class="todays-event-section" id="todaysEventSection">
-                            <!-- Events will be dynamically generated here -->
-                        </div>
-
-                    <!-- Upcoming Events -->
-                    <div class="upcoming-events-section">
-                        <div class="upcoming-events-header">
-                            <h3>Upcoming Events</h3>
-                            <div class="pagination-controls">
-                                <button class="pagination-btn" id="prevPage" disabled>‹</button>
-                                <span class="pagination-info" id="pageInfo">1 / 1</span>
-                                <button class="pagination-btn" id="nextPage" disabled>›</button>
+                <!-- Calendar + Upcoming Events side by side -->
+                <div class="top-row">
+                    <!-- Left: Calendar -->
+                    <div class="left-sidebar">
+                        <div class="calendar-section">
+                            <div class="calendar-header">
+                                <span class="calendar-month" id="currentMonth"></span>
+                                <div class="calendar-nav">
+                                    <button id="prevMonth">‹</button>
+                                    <button id="nextMonth">›</button>
+                                </div>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- Calendar will be generated here -->
                             </div>
                         </div>
-                        
-                        <div class="events-column-headers">
-                            <div class="header-date">Date & Time</div>
-                            <div class="header-location">Event</div>
-                            <div class="header-address">Location</div>
-                        </div>
-                        
-                        <div id="upcomingEventsList">
-                            <!-- Upcoming events will be listed here -->
-                        </div>
-                    </div>
                     </div>
 
-                    <!-- Map -->
-                    <div class="map-container">
-                        <div class="map-wrapper">
-                            <div class="map-controls">
-                                <button id="resetMapBtn" class="reset-map-btn">
-                                    <i class="fas fa-crosshairs"></i>
-                                    Reset View
-                                </button>
+                    <!-- Right: Upcoming Events -->
+                    <div class="right-content">
+                        <div class="upcoming-events-section">
+                            <div class="upcoming-events-header">
+                                <div class="upcoming-events-title">
+                                    <h3>Upcoming Events</h3>
+                                </div>
+                                <div class="pagination-controls">
+                                    <button class="pagination-btn" id="prevPage" disabled>‹</button>
+                                    <span class="pagination-info" id="pageInfo">1 / 1</span>
+                                    <button class="pagination-btn" id="nextPage" disabled>›</button>
+                                </div>
                             </div>
-                            <div id="map" class="map"></div>
+
+                            <div class="events-column-headers">
+                                <div class="header-date">Date & Time</div>
+                                <div class="header-location">Event</div>
+                                <div class="header-address">Location</div>
+                            </div>
+
+                            <div id="upcomingEventsList">
+                                <!-- Upcoming events will be listed here -->
+                            </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Map: full width below -->
+                <div class="map-container">
+                    <div class="map-wrapper">
+                        <div class="map-controls">
+                            <button id="resetMapBtn" class="reset-map-btn">
+                                <i class="fas fa-crosshairs"></i>
+                                Reset View
+                            </button>
+                        </div>
+                        <div class="map-legend">
+                            <h3>Map Legend</h3>
+                            <div class="legend-item">
+                                <img src="./public/assets/png/IMG_3760.png" class="legend-icon" alt="Today">
+                                <span>Today's Stop</span>
+                            </div>
+                            <div class="legend-item">
+                                <img src="./public/assets/png/IMG_7754.png" class="legend-icon" alt="Upcoming">
+                                <span>Upcoming Stop</span>
+                            </div>
+                        </div>
+                        <div id="map" class="map"></div>
                     </div>
                 </div>
             </div>
@@ -1838,7 +1856,7 @@
         
         // Pagination state
         let currentPage = 1;
-        let eventsPerPage = 4; // Will be dynamically adjusted
+        let eventsPerPage = 3;
         let currentTodayEventIndex = 0;
         let todayEventsData = [];
 
@@ -1910,8 +1928,8 @@
                     dayElement.classList.add('today');
                 }
                 
-                // Check if has event
-                if (eventDates.has(dateString)) {
+                // Only show event dot for future dates
+                if (eventDates.has(dateString) && currentDate.getTime() > today.getTime()) {
                     dayElement.classList.add('has-event');
                 }
                 
@@ -1920,17 +1938,20 @@
                     dayElement.classList.add('selected');
                 }
                 
-                // Click handler
-                dayElement.addEventListener('click', () => {
-                    // Toggle selection if clicking the same date
-                    if (selectedDate === dateString) {
-                        clearFilter();
-                    } else {
-                        selectedDate = dateString;
-                        filterByDate(dateString);
-                        renderCalendar();
-                    }
-                });
+                // Disable today and past dates
+                if (currentDate.getTime() <= today.getTime()) {
+                    dayElement.classList.add('disabled');
+                } else {
+                    dayElement.addEventListener('click', () => {
+                        if (selectedDate === dateString) {
+                            clearFilter();
+                        } else {
+                            selectedDate = dateString;
+                            filterByDate(dateString);
+                            renderCalendar();
+                        }
+                    });
+                }
                 
                 calendarGrid.appendChild(dayElement);
             }
@@ -2136,30 +2157,12 @@
             });
             
             // Reset map button
-            const resetBtn = document.getElementById('resetMapBtn');
-            if (resetBtn) {
-                resetBtn.addEventListener('click', function() {
-                    console.log('Reset button clicked');
-                    
-                    const mapInstance = window.map || window.knoxMapCenter.mapInstance;
-                    
-                    if (mapInstance) {
-                        // Close any open popups
-                        mapInstance.closePopup();
-                        
-                        // Recalculate center based on current filtered locations
-                        const center = window.calculateMapCenter(filteredLocations);
-                        
-                        // Reset to calculated center with the calculated zoom
-                        console.log('Resetting to center:', center);
-                        mapInstance.setView([center.lat, center.lng], center.zoom, {
-                            animate: true,
-                            duration: 0.5
-                        });
-                        console.log('Map reset complete');
-                    }
-                });
-            }
+            document.getElementById('resetMapBtn').addEventListener('click', function() {
+                if (window.map) {
+                    window.map.closePopup();
+                    window.map.setView(CONFIG.MAP_CENTER, CONFIG.MAP_ZOOM, { animate: true });
+                }
+            });
         });
 
         // Load schedule function - now updates both today's event and upcoming events
@@ -2175,7 +2178,7 @@
             });
             
             // Set events per page based on whether there are today events
-            eventsPerPage = todayEventsData.length > 0 ? 3 : 4;
+            eventsPerPage = 3;
             
             // Reset to first today event when data changes
             currentTodayEventIndex = 0;
@@ -2231,12 +2234,12 @@
         
         function renderTodayEvents() {
             const todaysSection = document.getElementById('todaysEventSection');
-            
+
             if (todayEventsData.length === 0) {
                 todaysSection.style.display = 'none';
                 return;
             }
-            
+
             todaysSection.style.display = 'block';
             
             // Create header with navigation
@@ -2280,9 +2283,13 @@
             todaysSection.innerHTML = `
                 <div class="todays-header-line">
                     <div class="todays-header-left">
-                        <h3>${headerText}</h3>
-                        <span class="event-date-badge" id="todayDateBadge">${formatEventDateBadge(currentEvent.date)}</span>
-                        <span class="event-time-badge" id="todayTimeBadge">${currentEvent.time}</span>
+                        <div class="todays-header-text">
+                            <h3>${headerText}</h3>
+                            <div class="todays-header-badges">
+                                <span class="event-date-badge" id="todayDateBadge">${formatEventDateBadge(currentEvent.date)}</span>
+                                <span class="event-time-badge" id="todayTimeBadge">${currentEvent.time}</span>
+                            </div>
+                        </div>
                     </div>
                     ${navHTML}
                 </div>

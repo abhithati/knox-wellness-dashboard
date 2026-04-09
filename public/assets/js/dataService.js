@@ -6,7 +6,7 @@
  class DataService {
     constructor() {
         this.cache = new Map();
-        this.geocodeCache = new Map(); // Cache for geocoded addresses
+        this.geocodeCache = new Map();
         this.lastUpdate = null;
     }
 
@@ -127,7 +127,6 @@
      * Uses Nominatim (OpenStreetMap) - FREE, no API key needed
      */
     async geocodeAddress(address, city = 'Knox County, Maine') {
-        // Check cache first
         const cacheKey = `${address}, ${city}`;
         if (this.geocodeCache.has(cacheKey)) {
             console.log(`Using cached coordinates for: ${address}`);
@@ -135,23 +134,18 @@
         }
 
         try {
-            // Add delay to respect rate limits (max 1 request per second)
             await this.delay(1000);
 
             const fullAddress = `${address}, ${city}, USA`;
             const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fullAddress)}&limit=1`;
-            
+
             console.log(`Geocoding: ${address}...`);
-            
+
             const response = await fetch(url, {
-                headers: {
-                    'User-Agent': 'Knox-Wellness-Van-Dashboard'
-                }
+                headers: { 'User-Agent': 'Knox-Wellness-Van-Dashboard' }
             });
 
-            if (!response.ok) {
-                throw new Error(`Geocoding failed: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`Geocoding failed: ${response.status}`);
 
             const data = await response.json();
 
@@ -160,11 +154,8 @@
                     lat: parseFloat(data[0].lat),
                     lng: parseFloat(data[0].lon)
                 };
-                
-                // Cache the result
                 this.geocodeCache.set(cacheKey, coords);
                 console.log(`✓ Geocoded ${address}: ${coords.lat}, ${coords.lng}`);
-                
                 return coords;
             } else {
                 console.warn(`⚠ Could not geocode: ${address}`);
@@ -280,7 +271,7 @@
      * Get statistics summary
      */
     async getStatistics() {
-        const [schedule, tracking] = await Promise.all([
+        const [, tracking] = await Promise.all([
             this.getSchedule(),
             this.getTracking()
         ]);
@@ -308,7 +299,7 @@
         today.setHours(0, 0, 0, 0);
 
         return schedule.filter(item => {
-            const itemDate = new Date(item.date);
+            const itemDate = new Date(item.date + 'T00:00:00');
             itemDate.setHours(0, 0, 0, 0);
 
             switch (range) {
