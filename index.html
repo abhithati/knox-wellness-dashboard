@@ -1635,12 +1635,12 @@
                         <div class="map-legend">
                             <h3>Map Legend</h3>
                             <div class="legend-item">
-                                <img src="./public/assets/png/IMG_3760.png" class="legend-icon" alt="Today">
-                                <span>Today's Stop</span>
+                                <img src="./public/assets/png/IMG_3760.png" class="legend-icon" alt="Mobile">
+                                <span>Mobile Van</span>
                             </div>
                             <div class="legend-item">
-                                <img src="./public/assets/png/IMG_7754.png" class="legend-icon" alt="Upcoming">
-                                <span>Upcoming Stop</span>
+                                <img src="./public/assets/png/IMG_7754.png" class="legend-icon" alt="Clinic">
+                                <span>Clinic Event</span>
                             </div>
                         </div>
                         <div id="map" class="map"></div>
@@ -1804,7 +1804,8 @@
                         services: item.services || [],
                         type: type,
                         address: item.address,
-                        notes: item.notes
+                        notes: item.notes,
+                        eventType: item.eventType || 'mobile'
                     };
                 });
                 

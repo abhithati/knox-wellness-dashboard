@@ -215,6 +215,7 @@
                 services: this.parseServices(row.Services || row.services),
                 zipCode: row['Zip Code'] || row.zipCode || row.zip,
                 notes: row.Notes || row.notes || '',
+                eventType: (row.Type || row.type || 'mobile').toLowerCase().trim(),
                 lat: parseFloat(row.Latitude || row.lat),
                 lng: parseFloat(row.Longitude || row.lng || row.lon)
             };

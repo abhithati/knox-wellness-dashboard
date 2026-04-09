@@ -117,8 +117,8 @@ class MapHandler {
                 return; // Skip past stops — not shown on map
             }
 
-            // Create custom icon
-            const icon = this.createMarkerIcon(markerStatus);
+            // Create custom icon based on event type (mobile=van, clinic=calendar)
+            const icon = this.createMarkerIcon(upcomingStop.eventType || 'mobile');
 
             // Create marker
             const marker = L.marker([upcomingStop.lat, upcomingStop.lng], { icon: icon });
@@ -141,46 +141,19 @@ class MapHandler {
 
     /**
      * Create custom marker icon
-     * @param {string} status - 'Today', 'Upcoming', or 'Past'
+     * @param {string} eventType - 'mobile' or 'clinic'
      * @returns {L.Icon}
      */
-    createMarkerIcon(status) {
+    createMarkerIcon(eventType) {
         const basePath = './public/assets/png/';
+        const img = eventType === 'clinic' ? 'IMG_7754.png' : 'IMG_3760.png';
 
-        if (status === 'Today') {
-            return L.divIcon({
-                html: `<img src="${basePath}IMG_3760.png" style="width:auto;height:72px;filter:drop-shadow(0 0 4px white) drop-shadow(0 3px 8px rgba(0,0,0,0.55));">`,
-                className: '',
-                iconSize: [72, 72],
-                iconAnchor: [36, 72],
-                popupAnchor: [0, -74]
-            });
-        }
-        if (status === 'Upcoming') {
-            return L.divIcon({
-                html: `<img src="${basePath}IMG_7754.png" style="width:auto;height:72px;filter:drop-shadow(0 0 4px white) drop-shadow(0 3px 8px rgba(0,0,0,0.55));">`,
-                className: '',
-                iconSize: [72, 72],
-                iconAnchor: [36, 72],
-                popupAnchor: [0, -74]
-            });
-        }
-        // Past: simple gray pin
         return L.divIcon({
-            html: `<div style="
-                background-color: #999;
-                width: 26px;
-                height: 26px;
-                border-radius: 50% 50% 50% 0;
-                border: 2px solid white;
-                transform: rotate(-45deg);
-                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-                opacity: 0.6;
-            "></div>`,
-            className: 'custom-marker',
-            iconSize: [26, 26],
-            iconAnchor: [13, 26],
-            popupAnchor: [0, -26]
+            html: `<img src="${basePath}${img}" style="width:auto;height:72px;filter:drop-shadow(0 0 4px white) drop-shadow(0 3px 8px rgba(0,0,0,0.55));">`,
+            className: '',
+            iconSize: [72, 72],
+            iconAnchor: [36, 72],
+            popupAnchor: [0, -74]
         });
     }
 
@@ -285,12 +258,13 @@ class MapHandler {
                     </p>
                 ` : ''}
                 
+                ${servicesHTML ? `
                 <div style="margin-top: 12px;">
                     <strong style="font-size: 14px;">Services Offered:</strong>
                     <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px;">
-                        ${servicesHTML || '<em>No services listed</em>'}
+                        ${servicesHTML}
                     </div>
-                </div>
+                </div>` : ''}
                 
                 ${primaryEvent.notes ? `
                     <p style="margin-top: 12px; font-size: 12px; color: #666; font-style: italic;">
