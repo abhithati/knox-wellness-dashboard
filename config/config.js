@@ -19,7 +19,7 @@ const CONFIG = {
   
   // Sheet names (tabs in your Google Sheet)
   SHEETS: {
-    SCHEDULE: 'Van Schedule',
+    SCHEDULE: 'Schedule',
     TRACKING: 'Service Tracking',
     CENSUS: 'Census Tract Data',
     BARRIERS: 'Barriers to Care'
